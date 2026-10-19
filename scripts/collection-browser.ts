@@ -250,13 +250,8 @@ try {
     'document.querySelector(".catalog [aria-busy]")?.getAttribute("aria-busy") === "false"',
   );
   await browser(
-    'find',
-    'role',
-    'button',
     'click',
-    '--name',
-    fixtures[3].metadata.full_name,
-    '--exact',
+    '[data-repository-id="' + fixtures[3].metadata.id + '"] .resource-details',
   );
   await browser('wait', '--text', '用已保存证据重新判断（付费）');
   await run('explicit rejudge dispatches once', '用已保存证据重新判断（付费）', 1);

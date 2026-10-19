@@ -212,7 +212,20 @@ test('repository rows show Star, push time, links, three facets and pagination b
       onViewed: async () => true,
     }),
   );
-  for (const value of ['43,935', 'GitHub', '资源形态', '任务用途', 'agent 能力', '采集', '下一页'])
+  assert.match(
+    html,
+    /<a class="repo" href="https:\/\/github.com\/vercel-labs\/agent-browser" target="_blank" rel="noreferrer">vercel-labs\/agent-browser<\/a>/,
+  );
+  assert.match(html, /<button class="resource-details" aria-pressed="true">查看详情<\/button>/);
+  for (const value of [
+    '43,935',
+    '查看详情',
+    '资源形态',
+    '任务用途',
+    'agent 能力',
+    '采集',
+    '下一页',
+  ])
     assert.ok(html.includes(value));
   assert.ok(
     renderToStaticMarkup(

@@ -157,13 +157,14 @@ export function ResourceList({
           className={'resource ' + (selected === r.id ? 'selected' : '')}
         >
           <div className="resource-heading">
-            <button
+            <a
               className="repo"
-              aria-pressed={selected === r.id}
-              onClick={() => onSelect(r.id)}
+              href={'https://github.com/' + r.metadata.full_name}
+              target="_blank"
+              rel="noreferrer"
             >
               {r.metadata.full_name}
-            </button>
+            </a>
             <div className="numbers">
               <strong>★ {numberText(r.metadata.stars)}</strong>
               <time dateTime={r.metadata.pushed_at ?? undefined}>
@@ -196,9 +197,13 @@ export function ResourceList({
               {r.override ? ' / 人工整理' : ''}
             </span>
             <span>采集 {dateText(r.contentAt)}</span>
-            <a href={'https://github.com/' + r.metadata.full_name} target="_blank" rel="noreferrer">
-              GitHub ↗
-            </a>
+            <button
+              className="resource-details"
+              aria-pressed={selected === r.id}
+              onClick={() => onSelect(r.id)}
+            >
+              查看详情
+            </button>
           </div>
           {(r.filterReason || r.error) && (
             <p className="small error-text">{r.filterReason ?? r.error}</p>

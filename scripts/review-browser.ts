@@ -13,7 +13,7 @@ import { createHttpServer } from '../src/server/http.ts';
 import { emptyStats } from '../src/shared/contracts.ts';
 import { repository } from '../tests/fixtures.ts';
 
-const browser = createBrowser('atlas-review-browser'),
+const browser = createBrowser('atlas-review-browser', '127.0.0.1,github.com'),
   db = openDatabase(':memory:'),
   catalog = createCatalog(db);
 let slowStatus = false,
@@ -120,13 +120,34 @@ async function waitFor(condition: () => boolean) {
 }
 try {
   await browser('set', 'viewport', '1440', '1000');
-  const cases = process.argv[2] ? [process.argv[2]] : ['sticky', 'sources', 'writes', 'polling'];
+  const cases = process.argv[2]
+    ? [process.argv[2]]
+    : ['links', 'sticky', 'sources', 'writes', 'polling'];
   for (const scenario of cases) {
     db.exec('DELETE FROM personal_state');
     await browser('open', origin);
     await browser('wait', '--fn', 'document.querySelectorAll(".catalog article").length === 50');
-    if (scenario === 'sticky') {
-      await browser('click', '.catalog article .repo');
+    if (scenario === 'links') {
+      await browser(
+        'network',
+        'route',
+        'https://github.com/**',
+        '--body',
+        'Repository destination',
+      );
+      const href = await evaluate<string>('document.querySelector(".catalog a.repo").href');
+      assert.equal(href, 'https://github.com/atlas-review/repo-0');
+      await browser('click', '.catalog article:first-of-type a.repo', '--new-tab');
+      assert.match(
+        await browser('tab', 'list', '--json'),
+        /https:\/\/github.com\/atlas-review\/repo-0/,
+      );
+      await browser('tab', 't1');
+      await browser('click', '.catalog article .resource-details');
+      await browser('wait', '--text', 'Source entry');
+      assert.equal(await evaluate('location.origin'), origin);
+    } else if (scenario === 'sticky') {
+      await browser('click', '.catalog article .resource-details');
       await browser('wait', '--text', 'Source entry');
       await evaluate('window.scrollTo(0, 1200)');
       const top = await evaluate<number>(
@@ -137,7 +158,7 @@ try {
         'Desktop details must remain visible while scrolling a long catalog: top=' + top,
       );
     } else if (scenario === 'sources') {
-      await browser('click', '.catalog article .repo');
+      await browser('click', '.catalog article .resource-details');
       await browser('wait', '--text', 'Source entry');
       assert.equal(await evaluate('document.querySelectorAll(".detail .sources li").length'), 50);
       await evaluate(

@@ -3,13 +3,13 @@ import { randomUUID } from 'node:crypto';
 import { promisify } from 'node:util';
 
 const exec = promisify(execFile);
-export function createBrowser(prefix: string) {
+export function createBrowser(prefix: string, allowedDomains = '127.0.0.1') {
   const session = prefix + '-' + randomUUID().slice(0, 8);
   return async (...args: string[]) =>
     (
       await exec(
         'agent-browser',
-        ['--session', session, '--allowed-domains', '127.0.0.1', ...args],
+        ['--session', session, '--allowed-domains', allowedDomains, ...args],
         { timeout: 30000, maxBuffer: 1024 * 1024 },
       )
     ).stdout;

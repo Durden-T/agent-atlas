@@ -150,15 +150,7 @@ try {
   assert.equal(externalCalls, 0);
   await browser('fill', '[aria-label="收集参数"] .collect-fields label:first-child input', '100');
   await browser('wait', '--text', '标签暂未应用');
-  await browser(
-    'find',
-    'role',
-    'button',
-    'click',
-    '--name',
-    'travisvn/awesome-claude-skills',
-    '--exact',
-  );
+  await browser('click', '[data-repository-id="' + reviewId + '"] .resource-details');
   await browser('wait', '--text', '模型判断记录');
   await browser('wait', '--text', '标为未查看');
   assert.equal(catalog.get(reviewId).viewed, true);
@@ -278,15 +270,7 @@ try {
   await browser('reload');
   await browser('wait', '--text', '任务记录 / 运行中');
   await browser('wait', '--text', 'travisvn/awesome-claude-skills');
-  await browser(
-    'find',
-    'role',
-    'button',
-    'click',
-    '--name',
-    'travisvn/awesome-claude-skills',
-    '--exact',
-  );
+  await browser('click', '[data-repository-id="' + reviewId + '"] .resource-details');
   await browser('wait', '--text', '展开原文');
   await browser('wait', '--text', '标为未查看');
   await browser('find', 'role', 'button', 'click', '--name', '标为未查看', '--exact');
@@ -323,15 +307,7 @@ try {
   await browser('find', 'role', 'button', 'click', '--name', '返回列表', '--exact');
   catalog.setPersonal(repository().id, { viewed: false });
   await browser('network', 'route', '**/api/resources/' + repository().id, '--abort');
-  await browser(
-    'find',
-    'role',
-    'button',
-    'click',
-    '--name',
-    repository().metadata.full_name,
-    '--exact',
-  );
+  await browser('click', '[data-repository-id="' + repository().id + '"] .resource-details');
   await browser('wait', '--text', 'Failed to fetch');
   const back = JSON.parse(
     await browser(
@@ -385,7 +361,7 @@ try {
     'window.scrollTo(0, 0); document.querySelector(".pagination button:last-child").click()',
   );
   await browser('wait', '--fn', 'document.querySelectorAll(".catalog article").length === 1');
-  await browser('click', '.catalog article .repo');
+  await browser('click', '.catalog article .resource-details');
   await browser('wait', '--fn', 'document.querySelectorAll(".catalog article").length === 50');
   assert.equal(catalog.list({ ...catalog.getSettings().view, viewed: 'unviewed' }).total, 50);
 
@@ -423,7 +399,10 @@ try {
     'document.querySelector(' + JSON.stringify(target) + ').scrollIntoView({block:"start"})',
   );
   const visibleAt = JSON.parse(await browser('eval', 'window.scrollY', '--json')).data.result;
-  await browser('eval', 'document.querySelectorAll(".catalog article .repo")[1].click()');
+  await browser(
+    'eval',
+    'document.querySelectorAll(".catalog article .resource-details")[1].click()',
+  );
   await browser(
     'wait',
     '--fn',

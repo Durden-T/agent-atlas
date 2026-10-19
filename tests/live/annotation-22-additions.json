@@ -1,0 +1,19 @@
+{
+  "preparedAt": "2026-10-15T10:39:17.479000Z",
+  "annotatedBeforeCalls": true,
+  "sourceRuleVersion": "atlas-21",
+  "targetRuleVersion": "atlas-22",
+  "kind": "independent-documentary-addition",
+  "changes": [
+    {
+      "name": "superset-sh/superset",
+      "label": "capability.evaluation",
+      "from": "boundary",
+      "to": "positive",
+      "sha": "1fafbe818f1f4ef60e9e0d062d0a7c6f71e8e320",
+      "hash": "37a7cf10cdea29370398761262bc42fba0b1dd962a9c7605076b8991644a843b",
+      "evidence": "README lines 84-90: owned Agent Monitoring displays working indicators, completion chimes/dock badges and a sidebar transition from working to done. It observes agent execution status; trace storage, detailed metrics or an owned tracing backend are not necessary. Original source21 annotation and raw .74 negative result remain unchanged.",
+      "reviewer": "atlas_current_general_review"
+    }
+  ]
+}

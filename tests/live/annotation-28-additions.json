@@ -1,0 +1,24 @@
+{
+  "preparedAt": "2026-10-15T13:23:02.701Z",
+  "annotatedBeforeCalls": true,
+  "sourceRuleVersion": "atlas-27",
+  "targetRuleVersion": "atlas-28",
+  "kind": "independent-documentary-addition",
+  "changes": [
+    {
+      "name": "NahumLitvin/prismantis",
+      "label": "capability.evaluation",
+      "from": "unscored",
+      "to": "positive",
+      "sha": "9f8a82e38d7aec651e25e015ace9d4fbfb23872f",
+      "hash": "3e58130d9a99e8e11432c04aa06edfd1edbbf1445489715b9f2b621ed8ede1b7",
+      "readmeLines": [
+        71,
+        207,
+        209
+      ],
+      "evidence": "Owned renderer displays each agent tool-call verb/target with done/running/failed status, counts calls and failed calls in collapsed groups. It displays agent execution events, not merely task artifact checks or product CI. Same existing execution-status observation meaning as Superset; an owned agent runner/backend is not required. Earlier whole-output review missed this feature; original unscored gold and negative responses remain unchanged.",
+      "reviewer": "atlas_current_general_review"
+    }
+  ]
+}

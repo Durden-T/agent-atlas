@@ -1,0 +1,1034 @@
+{
+  "preparedAt": "2026-10-16T03:59:29.771Z",
+  "modelCalled": false,
+  "annotatedBeforeCalls": true,
+  "targetRuleVersion": "atlas-34",
+  "baseMeaningVersion": "atlas-32",
+  "source": "/tmp/agent-atlas-review-ambiguity-search.json",
+  "sourceSha256": "d71ac504939b0d527e59de86ee8213f31fd8890bb4c02526ba3d1cccc9974b98",
+  "selectionPolicy": "Coverage of four distinct documented resource/delivery situations, chosen without model probabilities or expected pass rate: educational experimental framework, protocol SDK/CLI infrastructure, maintenance-mode mixed SDK/GUI/benchmark product, and typed multi-interface SDK/harness. Existing ordinary-software negatives remain in recent regressions; this four-case set is not claimed to cover all repository types.",
+  "selectionOrder": [
+    "openai/swarm",
+    "modelcontextprotocol/python-sdk",
+    "microsoft/autogen",
+    "pydantic/pydantic-ai"
+  ],
+  "nonselectedNote": "The second MCP language implementation and LangChain/LangGraph substantially overlap selected protocol/framework roles. Prefect is a general data-pipeline product whose short agent-setup guide linkage presents a separate unresolved reference/ownership scope question; this selection does not silently prelabel it positive or negative or claim it is easy/hard for Jev.",
+  "novelty": {
+    "checkedAt": "2026-10-16T03:59:29.771489+00:00",
+    "filesChecked": 144,
+    "method": "Exact case-insensitive structured repository name under persisted submitted/error/complete dispatch or raw response records; metadata-only gold/annotation/README links excluded.",
+    "hits": []
+  },
+  "policy": {
+    "relevanceYes": 0.8,
+    "relevanceNo": 0.2,
+    "labelMinimum": 0.52
+  },
+  "rawVersusApplied": "All15 independent raw label questions are annotated. Positive relevance is required for all4; boundaries do not force review probabilities. No new model requests performed.",
+  "externalRequestsDuringPreparation": 0,
+  "projectModified": false,
+  "userDatabaseAccess": false,
+  "fixtures": [
+    {
+      "name": "openai/swarm",
+      "sha": "bcc1e195f17f6442fba96318fd2288a8c08653ac",
+      "hash": "20aa28a53cf5c3b696c3be00853337eef3ed6bf9b28a1e34025a06de1b8775b9",
+      "readAt": "2026-10-16T02:57:02.861Z",
+      "evidence": {
+        "full_name": "openai/swarm",
+        "description": "Educational framework exploring ergonomic, lightweight multi-agent orchestration. Managed by OpenAI Solution team.",
+        "topics": [],
+        "readme": {
+          "path": "README.md",
+          "text": "![Swarm Logo](assets/logo.png)\n\n# Swarm (experimental, educational)\n\n> [!IMPORTANT]\n> Swarm is now replaced by the [OpenAI Agents SDK](https://github.com/openai/openai-agents-python), which is a production-ready evolution of Swarm. The Agents SDK features key improvements and will be actively maintained by the OpenAI team.\n>\n> We recommend migrating to the Agents SDK for all production use cases.\n\n## Install\n\nRequires Python 3.10+\n\n```shell\npip install git+ssh://git@github.com/openai/swarm.git\n```\n\nor\n\n```shell\npip install git+https://github.com/openai/swarm.git\n```\n\n## Usage\n\n```python\nfrom swarm import Swarm, Agent\n\nclient = Swarm()\n\ndef transfer_to_agent_b():\n    return agent_b\n\n\nagent_a = Agent(\n    name=\"Agent A\",\n    instructions=\"You are a helpful agent.\",\n    functions=[transfer_to_agent_b],\n)\n\nagent_b = Agent(\n    name=\"Agent B\",\n    instructions=\"Only speak in Haikus.\",\n)\n\nresponse = client.run(\n    agent=agent_a,\n    messages=[{\"role\": \"user\", \"content\": \"I want to talk to agent B.\"}],\n)\n\nprint(response.messages[-1][\"content\"])\n```\n\n```\nHope glimmers brightly,\nNew paths converge gracefully,\nWhat can I assist?\n```\n\n## Table of Contents\n\n- [Overview](#overview)\n- [Examples](#examples)\n- [Documentation](#documentation)\n  - [Running Swarm](#running-swarm)\n  - [Agents](#agents)\n  - [Functions](#functions)\n  - [Streaming](#streaming)\n- [Evaluations](#evaluations)\n- [Utils](#utils)\n\n# Overview\n\nSwarm focuses on making agent **coordination** and **execution** lightweight, highly controllable, and easily testable.\n\nIt accomplishes this through two primitive abstractions: `Agent`s and **handoffs**. An `Agent` encompasses `instructions` and `tools`, and can at any point choose to hand off a conversation to another `Agent`.\n\nThese primitives are powerful enough to express rich dynamics between tools and networks of agents, allowing you to build scalable, real-world solutions while avoiding a steep learning curve.\n\n> [!NOTE]\n> Swarm Agents are not related to Assistants in the Assistants API. They are named similarly for convenience, but are otherwise completely unrelated. Swarm is entirely powered by the Chat Completions API and is hence stateless between calls.\n\n## Why Swarm\n\nSwarm explores patterns that are lightweight, scalable, and highly customizable by design. Approaches similar to Swarm are best suited for situations dealing with a large number of independent capabilities and instructions that are difficult to encode into a single prompt.\n\nThe Assistants API is a great option for developers looking for fully-hosted threads and built in memory management and retrieval. However, Swarm is an educational resource for developers curious to learn about multi-agent orchestration. Swarm runs (almost) entirely on the client and, much like the Chat Completions API, does not store state between calls.\n\n# Examples\n\nCheck out `/examples` for inspiration! Learn more about each one in its README.\n\n- [`basic`](examples/basic): Simple examples of fundamentals like setup, function calling, handoffs, and context variables\n- [`triage_agent`](examples/triage_agent): Simple example of setting up a basic triage step to hand off to the right agent\n- [`weather_agent`](examples/weather_agent): Simple example of function calling\n- [`airline`](examples/airline): A multi-agent setup for handling different customer service requests in an airline context.\n- [`support_bot`](examples/support_bot): A customer service bot which includes a user interface agent and a help center agent with several tools\n- [`personal_shopper`](examples/personal_shopper): A personal shopping agent that can help with making sales and refunding orders\n\n# Documentation\n\n![Swarm Diagram](assets/swarm_diagram.png)\n\n## Running Swarm\n\nStart by instantiating a Swarm client (which internally just instantiates an `OpenAI` client).\n\n```python\nfrom swarm import Swarm\n\nclient = Swarm()\n```\n\n### `client.run()`\n\nSwarm's `run()` function is analogous to the `chat.completions.create()` function in the Chat Completions API – it takes `messages` and returns `messages` and saves no state between calls. Importantly, however, it also handles Agent function execution, hand-offs, context variable references, and can take multiple turns before returning to the user.\n\nAt its core, Swarm's `client.run()` implements the following loop:\n\n1. Get a completion from the current Agent\n2. Execute tool calls and append results\n3. Switch Agent if necessary\n4. Update context variables, if necessary\n5. If no new function calls, return\n\n#### Arguments\n\n| Argument              | Type    | Description                                                                                                                                            | Default        |\n| --------------------- | ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------- |\n| **agent**             | `Agent` | The (initial) agent to be called.                                                                                                                      | (required)     |\n| **messages**          | `List`  | A list of message objects, identical to [Chat Completions `messages`](https://platform.openai.com/docs/api-reference/chat/create#chat-create-messages) | (required)     |\n| **context_variables** | `dict`  | A dictionary of additional context variables, available to functions and Agent instructions                                                            | `{}`           |\n| **max_turns**         | `int`   | The maximum number of conversational turns allowed                                                                                                     | `float(\"inf\")` |\n| **model_override**    | `str`   | An optional string to override the model being used by an Agent                                                                                        | `None`         |\n| **execute_tools**     | `bool`  | If `False`, interrupt execution and immediately returns `tool_calls` message when an Agent tries to call a function                                    | `True`         |\n| **stream**            | `bool`  | If `True`, enables streaming responses                                                                                                                 | `False`        |\n| **debug**             | `bool`  | If `True`, enables debug logging                                                                                                                       | `False`        |\n\nOnce `client.run()` is finished (after potentially multiple calls to agents and tools) it will return a `Response` containing all the relevant updated state. Specifically, the new `messages`, the last `Agent` to be called, and the most up-to-date `context_variables`. You can pass these values (plus new user messages) in to your next execution of `client.run()` to continue the interaction where it left off – much like `chat.completions.create()`. (The `run_demo_loop` function implements an example of a full execution loop in `/swarm/repl/repl.py`.)\n\n#### `Response` Fields\n\n| Field                 | Type    | Description                                                                                                                                                                                                                                                                  |\n| --------------------- | ------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |\n| **messages**          | `List`  | A list of message objects generated during the conversation. Very similar to [Chat Completions `messages`](https://platform.openai.com/docs/api-reference/chat/create#chat-create-messages), but with a `sender` field indicating which `Agent` the message originated from. |\n| **agent**             | `Agent` | The last agent to handle a message.                                                                                                                                                                                                                                          |\n| **context_variables** | `dict`  | The same as the input variables, plus any changes.                                                                                                                                                                                                                           |\n\n## Agents\n\nAn `Agent` simply encapsulates a set of `instructions` with a set of `functions` (plus some additional settings below), and has the capability to hand off execution to another `Agent`.\n\nWhile it's tempting to personify an `Agent` as \"someone who does X\", it can also be used to represent a very specific workflow or step defined by a set of `instructions` and `functions` (e.g. a set of steps, a complex retrieval, single step of data transformation, etc). This allows `Agent`s to be composed into a network of \"agents\", \"workflows\", and \"tasks\", all represented by the same primitive.\n\n## `Agent` Fields\n\n| Field            | Type                     | Description                                                                   | Default                      |\n| ---------------- | ------------------------ | ----------------------------------------------------------------------------- | ---------------------------- |\n| **name**         | `str`                    | The name of the agent.                                                        | `\"Agent\"`                    |\n| **model**        | `str`                    | The model to be used by the agent.                                            | `\"gpt-4o\"`                   |\n| **instructions** | `str` or `func() -> str` | Instructions for the agent, can be a string or a callable returning a string. | `\"You are a helpful agent.\"` |\n| **functions**    | `List`                   | A list of functions that the agent can call.                                  | `[]`                         |\n| **tool_choice**  | `str`                    | The tool choice for the agent, if any.                                        | `None`                       |\n\n### Instructions\n\n`Agent` `instructions` are directly converted into the `system` prompt of a conversation (as the first message). Only the `instructions` of the active `Agent` will be present at any given time (e.g. if there is an `Agent` handoff, the `system` prompt will change, but the chat history will not.)\n\n```python\nagent = Agent(\n   instructions=\"You are a helpful agent.\"\n)\n```\n\nThe `instructions` can either be a regular `str`, or a function that returns a `str`. The function can optionally receive a `context_variables` parameter, which will be populated by the `context_variables` passed into `client.run()`.\n\n```python\ndef instructions(context_variables):\n   user_name = context_variables[\"user_name\"]\n   return f\"Help the user, {user_name}, do whatever they want.\"\n\nagent = Agent(\n   instructions=instructions\n)\nresponse = client.run(\n   agent=agent,\n   messages=[{\"role\":\"user\", \"content\": \"Hi!\"}],\n   context_variables={\"user_name\":\"John\"}\n)\nprint(response.messages[-1][\"content\"])\n```\n\n```\nHi John, how can I assist you today?\n```\n\n## Functions\n\n- Swarm `Agent`s can call python functions directly.\n- Function should usually return a `str` (values will be attempted to be cast as a `str`).\n- If a function returns an `Agent`, execution will be transferred to that `Agent`.\n- If a function defines a `context_variables` parameter, it will be populated by the `context_variables` passed into `client.run()`.\n\n```python\ndef greet(context_variables, language):\n   user_name = context_variables[\"user_name\"]\n   greeting = \"Hola\" if language.lower() == \"spanish\" else \"Hello\"\n   print(f\"{greeting}, {user_name}!\")\n   return \"Done\"\n\nagent = Agent(\n   functions=[greet]\n)\n\nclient.run(\n   agent=agent,\n   messages=[{\"role\": \"user\", \"content\": \"Usa greet() por favor.\"}],\n   context_variables={\"user_name\": \"John\"}\n)\n```\n\n```\nHola, John!\n```\n\n- If an `Agent` function call has an error (missing function, wrong argument, error) an error response will be appended to the chat so the `Agent` can recover gracefully.\n- If multiple functions are called by the `Agent`, they will be executed in that order.\n\n### Handoffs and Updating Context Variables\n\nAn `Agent` can hand off to another `Agent` by returning it in a `function`.\n\n```python\nsales_agent = Agent(name=\"Sales Agent\")\n\ndef transfer_to_sales():\n   return sales_agent\n\nagent = Agent(functions=[transfer_to_sales])\n\nresponse = client.run(agent, [{\"role\":\"user\", \"content\":\"Transfer me to sales.\"}])\nprint(response.agent.name)\n```\n\n```\nSales Agent\n```\n\nIt can also update the `context_variables` by returning a more complete `Result` object. This can also contain a `value` and an `agent`, in case you want a single function to return a value, update the agent, and update the context variables (or any subset of the three).\n\n```python\nsales_agent = Agent(name=\"Sales Agent\")\n\ndef talk_to_sales():\n   print(\"Hello, World!\")\n   return Result(\n       value=\"Done\",\n       agent=sales_agent,\n       context_variables={\"department\": \"sales\"}\n   )\n\nagent = Agent(functions=[talk_to_sales])\n\nresponse = client.run(\n   agent=agent,\n   messages=[{\"role\": \"user\", \"content\": \"Transfer me to sales\"}],\n   context_variables={\"user_name\": \"John\"}\n)\nprint(response.agent.name)\nprint(response.context_variables)\n```\n\n```\nSales Agent\n{'department': 'sales', 'user_name': 'John'}\n```\n\n> [!NOTE]\n> If an `Agent` calls multiple functions to hand-off to an `Agent`, only the last handoff function will be used.\n\n### Function Schemas\n\nSwarm automatically converts functions into a JSON Schema that is passed into Chat Completions `tools`.\n\n- Docstrings are turned into the function `description`.\n- Parameters without default values are set to `required`.\n- Type hints are mapped to the parameter's `type` (and default to `string`).\n- Per-parameter descriptions are not explicitly supported, but should work similarly if just added in the docstring. (In the future docstring argument parsing may be added.)\n\n```python\ndef greet(name, age: int, location: str = \"New York\"):\n   \"\"\"Greets the user. Make sure to get their name and age before calling.\n\n   Args:\n      name: Name of the user.\n      age: Age of the user.\n      location: Best place on earth.\n   \"\"\"\n   print(f\"Hello {name}, glad you are {age} in {location}!\")\n```\n\n```javascript\n{\n   \"type\": \"function\",\n   \"function\": {\n      \"name\": \"greet\",\n      \"description\": \"Greets the user. Make sure to get their name and age before calling.\\n\\nArgs:\\n   name: Name of the user.\\n   age: Age of the user.\\n   location: Best place on earth.\",\n      \"parameters\": {\n         \"type\": \"object\",\n         \"properties\": {\n            \"name\": {\"type\": \"string\"},\n            \"age\": {\"type\": \"integer\"},\n            \"location\": {\"type\": \"string\"}\n         },\n         \"required\": [\"name\", \"age\"]\n      }\n   }\n}\n```\n\n## Streaming\n\n```python\nstream = client.run(agent, messages, stream=True)\nfor chunk in stream:\n   print(chunk)\n```\n\nUses the same events as [Chat Completions API streaming](https://platform.openai.com/docs/api-reference/streaming). See `process_and_print_streaming_response` in `/swarm/repl/repl.py` as an example.\n\nTwo new event types have been added:\n\n- `{\"delim\":\"start\"}` and `{\"delim\":\"end\"}`, to signal each time an `Agent` handles a single message (response or function call). This helps identify switches between `Agent`s.\n- `{\"response\": Response}` will return a `Response` object at the end of a stream with the aggregated (complete) response, for convenience.\n\n# Evaluations\n\nEvaluations are crucial to any project, and we encourage developers to bring their own eval suites to test the performance of their swarms. For reference, we have some examples for how to eval swarm in the `airline`, `weather_agent` and `triage_agent` quickstart examples. See the READMEs for more details.\n\n# Utils\n\nUse the `run_demo_loop` to test out your swarm! This will run a REPL on your command line. Supports streaming.\n\n```python\nfrom swarm.repl import run_demo_loop\n...\nrun_demo_loop(agent, stream=True)\n```\n\n# Core Contributors\n\n- Ilan Bigio - [ibigio](https://github.com/ibigio)\n- James Hills - [jhills20](https://github.com/jhills20)\n- Shyamal Anadkat - [shyamal-anadkat](https://github.com/shyamal-anadkat)\n- Charu Jaiswal - [charuj](https://github.com/charuj)\n- Colin Jarvis - [colin-openai](https://github.com/colin-openai)\n- Katia Gil Guzman - [katia-openai](https://github.com/katia-openai)\n",
+          "truncated": false
+        }
+      },
+      "group": "independent-unseen-34",
+      "category": "Educational/experimental multi-agent framework with owned REPL and task examples; replacement notice must not erase documented deliverables.",
+      "relevance": true,
+      "disposition": "judged",
+      "positive": [
+        "form.tools",
+        "form.extensions",
+        "form.workflows",
+        "purpose.development",
+        "purpose.office",
+        "purpose.content",
+        "purpose.learning",
+        "capability.orchestration",
+        "capability.memory",
+        "capability.evaluation",
+        "capability.runtime",
+        "capability.interaction"
+      ],
+      "negative": [
+        "form.skills",
+        "form.catalogs",
+        "purpose.research"
+      ],
+      "abstain": [],
+      "boundary": [],
+      "labelEvidence": {
+        "form.tools": {
+          "verdict": "positive",
+          "readmeLines": [
+            91,
+            93,
+            139,
+            329,
+            342,
+            345,
+            347
+          ],
+          "reason": "The owned swarm/repl/repl.py and run_demo_loop provide an executable command-line agent REPL; local runnable task examples are also documented. This is more than a library-only claim."
+        },
+        "form.skills": {
+          "verdict": "negative",
+          "readmeLines": [
+            35,
+            41,
+            93,
+            151,
+            155,
+            161
+          ],
+          "reason": "Agent instruction/model/function definitions and demonstration agents are documented, not reusable agent task-skill/instruction packages."
+        },
+        "form.extensions": {
+          "verdict": "positive",
+          "readmeLines": [
+            35,
+            41,
+            132,
+            134,
+            155,
+            160,
+            161,
+            162,
+            163
+          ],
+          "reason": "The supplied per-agent instructions/model/function/tool-choice and runner model override are actual agent-specific non-skill settings, even though presented as Python configuration."
+        },
+        "form.workflows": {
+          "verdict": "positive",
+          "readmeLines": [
+            74,
+            76,
+            114,
+            118,
+            120,
+            121,
+            122,
+            123,
+            124
+          ],
+          "reason": "The owned Swarm framework implements agent execution, tool calls and handoffs with an explicit run loop."
+        },
+        "form.catalogs": {
+          "verdict": "negative",
+          "readmeLines": [
+            3,
+            74,
+            85,
+            87,
+            91
+          ],
+          "reason": "This is an owned educational framework and code examples, not primarily a curated catalog of agent resources/guides. Educational intent alone does not make form.catalogs positive."
+        },
+        "purpose.development": {
+          "verdict": "positive",
+          "readmeLines": [
+            74,
+            76,
+            78,
+            85,
+            87,
+            93
+          ],
+          "reason": "The actual framework and educational examples support designing/building multi-agent applications."
+        },
+        "purpose.office": {
+          "verdict": "positive",
+          "readmeLines": [
+            96,
+            97,
+            98
+          ],
+          "reason": "Owned airline/customer-service/support and personal-shopping/sales/refund examples establish customer support and personal-productivity/business uses."
+        },
+        "purpose.content": {
+          "verdict": "positive",
+          "readmeLines": [
+            41,
+            43,
+            48,
+            55,
+            56,
+            57
+          ],
+          "reason": "The owned Agent B example is explicitly configured to produce haikus and demonstrates a generated poem. This is a concrete creative-writing example, not merely the repository promotional artwork or a generic claim that agents can write."
+        },
+        "purpose.research": {
+          "verdict": "negative",
+          "readmeLines": [
+            93,
+            94,
+            95,
+            96,
+            97,
+            98,
+            153,
+            338
+          ],
+          "reason": "Actual examples cover coordination, weather, customer service and shopping. The general statement that Agent can represent complex retrieval/data transformation is a format capability explanation, not a supplied user analysis/research/investigation use; agent performance tests do not themselves establish this task purpose."
+        },
+        "purpose.learning": {
+          "verdict": "positive",
+          "readmeLines": [
+            3,
+            85,
+            87,
+            91,
+            93
+          ],
+          "reason": "The framework explicitly describes itself as an educational resource for developers learning multi-agent orchestration, with actual educational examples. This is distinct from ordinary installation/usage instructions alone."
+        },
+        "capability.orchestration": {
+          "verdict": "positive",
+          "readmeLines": [
+            116,
+            118,
+            120,
+            121,
+            122,
+            123,
+            124,
+            231,
+            249
+          ],
+          "reason": "Owned execution advances model/tool stages, hands off to agents and updates context through an explicit mechanism."
+        },
+        "capability.memory": {
+          "verdict": "positive",
+          "readmeLines": [
+            81,
+            87,
+            132,
+            139,
+            145,
+            147,
+            167,
+            175,
+            249
+          ],
+          "reason": "The owned runner returns updated messages/context variables, preserves chat history during agent handoff and permits state continuation across user-managed runs. Stateless-between-calls does not negate this explicit context-management mechanism; persistence is not required."
+        },
+        "capability.evaluation": {
+          "verdict": "positive",
+          "readmeLines": [
+            329,
+            331,
+            333,
+            334,
+            338
+          ],
+          "reason": "Owned evaluation examples test swarms, and execution streams expose per-agent response/function-call start/end events. The observed subject is agent execution/behavior."
+        },
+        "capability.runtime": {
+          "verdict": "positive",
+          "readmeLines": [
+            106,
+            133,
+            134,
+            135,
+            136,
+            137,
+            155,
+            160
+          ],
+          "reason": "The owned agent runner provides model selection/override, execution limits and tool-execution controls over its own model client."
+        },
+        "capability.interaction": {
+          "verdict": "positive",
+          "readmeLines": [
+            97,
+            139,
+            329,
+            342,
+            347
+          ],
+          "reason": "The owned support-bot user-interface agent and executable REPL provide an agent-user interface; these are supplied components, not just external host installation."
+        }
+      },
+      "relevanceReason": "The actual supplied text explicitly documents owned agent functionality/infrastructure, not theoretical generic utility use. Maintenance, experimental or educational status does not remove owned agent delivery.",
+      "reason": "Independent full single-README/name/description/topics annotation before any Jev call for this exact repository. Frozen32 label meanings used; no expected probabilities, no model-derived gold and no prompt advice. Boundaries allow semantic uncertainty and are not required-abstention predictions.",
+      "expectedAppliedLabels": null
+    },
+    {
+      "name": "modelcontextprotocol/python-sdk",
+      "sha": "50ea0ed227b72de82917d67d678d1d24783ab2e9",
+      "hash": "8041837abe2e404b4ca649223304f72df2436baea8efe3c4b01f2cc85320e9d9",
+      "readAt": "2026-10-16T02:56:57.174Z",
+      "evidence": {
+        "full_name": "modelcontextprotocol/python-sdk",
+        "description": "The official Python SDK for Model Context Protocol servers and clients",
+        "topics": [
+          "mcp",
+          "mcp-client",
+          "mcp-server",
+          "python"
+        ],
+        "readme": {
+          "path": "README.md",
+          "text": "# MCP Python SDK\n\n<div align=\"center\">\n\n<strong>Python implementation of the Model Context Protocol (MCP)</strong>\n\n[![PyPI][pypi-badge]][pypi-url]\n[![MIT licensed][mit-badge]][mit-url]\n[![Python Version][python-badge]][python-url]\n[![Documentation][docs-badge]][docs-url]\n[![Protocol][protocol-badge]][protocol-url]\n[![Specification][spec-badge]][spec-url]\n\n</div>\n\n## Documentation\n\n**The documentation lives at <https://py.sdk.modelcontextprotocol.io/>.**\n\nIt has a [Get started guide](https://py.sdk.modelcontextprotocol.io/get-started/), [What's new in v2](https://py.sdk.modelcontextprotocol.io/whats-new/), the [API reference](https://py.sdk.modelcontextprotocol.io/api/mcp/), and the [migration guide](https://py.sdk.modelcontextprotocol.io/migration/).\n\n## What is MCP?\n\nThe [Model Context Protocol](https://modelcontextprotocol.io) lets you build servers that expose data and functionality to LLM applications in a secure, standardized way. Think of it like a web API, but designed for LLM interactions. With this SDK you can:\n\n- **Build MCP servers** that expose tools, resources, and prompts to any MCP host\n- **Build MCP clients** that connect to any MCP server\n- Speak every standard transport: stdio, Streamable HTTP, and SSE\n\n## Requirements\n\nPython 3.11+.\n\n## Installation\n\n```bash\nuv add \"mcp[cli]\"      # or: pip install \"mcp[cli]\"\n```\n\nThe `cli` extra adds the `mcp` command-line tool (`mcp dev`, `mcp run`, `mcp install`) on top of the SDK; install plain `mcp` if you don't need it. For one-off commands, `uv run --with \"mcp[cli]\" mcp ...` works without a project.\n\n## A server in 15 lines\n\nCreate a `server.py`:\n\n<!-- snippet-source docs_src/index/tutorial001.py -->\n```python\nfrom mcp.server import MCPServer\n\nmcp = MCPServer(\"Demo\")\n\n\n@mcp.tool()\ndef add(a: int, b: int) -> int:\n    \"\"\"Add two numbers.\"\"\"\n    return a + b\n\n\n@mcp.resource(\"greeting://{name}\")\ndef greeting(name: str) -> str:\n    \"\"\"Greet someone by name.\"\"\"\n    return f\"Hello, {name}!\"\n```\n\n_Full example: [docs_src/index/tutorial001.py](https://github.com/modelcontextprotocol/python-sdk/blob/main/docs_src/index/tutorial001.py)_\n<!-- /snippet-source -->\n\nThat's a complete MCP server: one tool, one templated resource. Open it in the [MCP Inspector](https://github.com/modelcontextprotocol/inspector):\n\n```bash\nuv run mcp dev server.py\n```\n\nCall `add` with `a=1`, `b=2` and you get `3` back.\n\nNotice what you did **not** write: no JSON Schema (`a: int, b: int` _is_ the schema), no request parsing, no validation code, no protocol handling. Two type-hinted Python functions and a docstring.\n\n[Get started](https://py.sdk.modelcontextprotocol.io/get-started/) takes it from here.\n\n## A client in 10 lines\n\nThe same package is a full MCP **client**. Serve `server.py` over HTTP:\n\n```bash\nuv run mcp run server.py --transport streamable-http\n```\n\nthen point a `Client` at it:\n\n```python\nimport asyncio\n\nfrom mcp import Client\n\n\nasync def main() -> None:\n    async with Client(\"http://localhost:8000/mcp\") as client:\n        result = await client.call_tool(\"add\", {\"a\": 1, \"b\": 2})\n        print(result.structured_content)  # {'result': 3}\n\n\nasyncio.run(main())\n```\n\nA URL means Streamable HTTP, the transport you deploy. `Client` can also launch a local server as a stdio subprocess or take any custom transport; [Clients](https://py.sdk.modelcontextprotocol.io/client/) has the rest.\n\n## Contributing\n\nWe are passionate about supporting contributors of all levels of experience and would love to see you get involved in the project. See the [contributing guide](https://github.com/modelcontextprotocol/python-sdk/blob/main/CONTRIBUTING.md) to get started.\n\n## License\n\nThis project is licensed under the MIT License. See the [LICENSE](https://github.com/modelcontextprotocol/python-sdk/blob/main/LICENSE) file for details.\n\n[pypi-badge]: https://img.shields.io/pypi/v/mcp.svg\n[pypi-url]: https://pypi.org/project/mcp/\n[mit-badge]: https://img.shields.io/pypi/l/mcp.svg\n[mit-url]: https://github.com/modelcontextprotocol/python-sdk/blob/main/LICENSE\n[python-badge]: https://img.shields.io/pypi/pyversions/mcp.svg\n[python-url]: https://www.python.org/downloads/\n[docs-badge]: https://img.shields.io/badge/docs-python--sdk-blue.svg\n[docs-url]: https://py.sdk.modelcontextprotocol.io/\n[protocol-badge]: https://img.shields.io/badge/protocol-modelcontextprotocol.io-blue.svg\n[protocol-url]: https://modelcontextprotocol.io\n[spec-badge]: https://img.shields.io/badge/spec-spec.modelcontextprotocol.io-blue.svg\n[spec-url]: https://modelcontextprotocol.io/specification/latest\n",
+          "truncated": false
+        }
+      },
+      "group": "independent-unseen-34",
+      "category": "Agent-specific protocol infrastructure: library plus optional runnable CLI, client/server examples, and configuration-versus-API and automation boundaries.",
+      "relevance": true,
+      "disposition": "judged",
+      "positive": [
+        "form.tools",
+        "purpose.development",
+        "capability.runtime",
+        "capability.interaction"
+      ],
+      "negative": [
+        "form.skills",
+        "form.workflows",
+        "form.catalogs",
+        "purpose.office",
+        "purpose.content",
+        "purpose.research",
+        "purpose.learning",
+        "capability.memory",
+        "capability.evaluation"
+      ],
+      "abstain": [],
+      "boundary": [
+        "form.extensions",
+        "capability.orchestration"
+      ],
+      "labelEvidence": {
+        "form.tools": {
+          "verdict": "positive",
+          "readmeLines": [
+            37,
+            40,
+            46,
+            65,
+            68,
+            71,
+            85
+          ],
+          "reason": "The owned mcp CLI explicitly runs/develops/installs MCP programs; a same-repository runnable server example is supplied."
+        },
+        "form.skills": {
+          "verdict": "negative",
+          "readmeLines": [
+            24,
+            26,
+            27,
+            53,
+            59
+          ],
+          "reason": "The SDK exposes protocol tools/resources/prompts and a greeting demonstration, not an owned reusable agent task-skill package."
+        },
+        "form.extensions": {
+          "verdict": "boundary",
+          "readmeLines": [
+            40,
+            82,
+            85,
+            97,
+            105
+          ],
+          "reason": "The actual README supplies an MCP client connection setting and an install command, but leaves a genuine boundary between SDK application code configuring a Client URL and a delivered agent/harness MCP launch configuration. Do not require a probability abstention or assume a plugin bundle."
+        },
+        "form.workflows": {
+          "verdict": "negative",
+          "readmeLines": [
+            24,
+            26,
+            27,
+            40,
+            68,
+            80,
+            105
+          ],
+          "reason": "The documented SDK builds MCP servers/clients and protocol transports. It does not document an agent task workflow, an agent orchestration framework or an SDK that builds the agent itself; agent-component development is separately captured by purpose.development."
+        },
+        "form.catalogs": {
+          "verdict": "negative",
+          "readmeLines": [
+            1,
+            5,
+            24,
+            26,
+            27,
+            40
+          ],
+          "reason": "The primary deliverable is the owned protocol SDK and CLI, not curation of agent reference material."
+        },
+        "purpose.development": {
+          "verdict": "positive",
+          "readmeLines": [
+            24,
+            26,
+            27,
+            40,
+            46,
+            65,
+            80
+          ],
+          "reason": "Actual user tasks build and run MCP server/client components for LLM/agent applications. Agent-component development qualifies without a complete agent engine."
+        },
+        "purpose.office": {
+          "verdict": "negative",
+          "readmeLines": [
+            24,
+            26,
+            27,
+            53,
+            54,
+            59,
+            60,
+            61,
+            74
+          ],
+          "reason": "The supplied arithmetic and greeting examples and generic resource protocol do not document document handling, productivity, career, support or team/communication use."
+        },
+        "purpose.content": {
+          "verdict": "negative",
+          "readmeLines": [
+            53,
+            54,
+            59,
+            60,
+            61,
+            62
+          ],
+          "reason": "A generic greeting/resource example is not an explicit writing/design/creative-media/business-content/marketing task; the repository own documentation is insufficient."
+        },
+        "purpose.research": {
+          "verdict": "negative",
+          "readmeLines": [
+            24,
+            53,
+            54,
+            55,
+            56,
+            59,
+            60,
+            61,
+            74
+          ],
+          "reason": "The demonstration adds two numbers and greets a name without attributing an analysis/research/investigation/information-visualization use to the product. Do not infer one from generic protocol potential."
+        },
+        "purpose.learning": {
+          "verdict": "negative",
+          "readmeLines": [
+            16,
+            18,
+            20,
+            42,
+            44,
+            78,
+            80,
+            107
+          ],
+          "reason": "Get-started/API/migration documentation and product quickstart server/client snippets do not independently describe user knowledge organization or educational materials offered for a human learning purpose."
+        },
+        "capability.orchestration": {
+          "verdict": "boundary",
+          "readmeLines": [
+            26,
+            27,
+            53,
+            54,
+            82,
+            97,
+            98,
+            105
+          ],
+          "reason": "The owned client concretely invokes a tool on another MCP server. Whether this protocol/RPC arithmetic demonstration establishes agent task/application-action automation versus only connectivity is a genuine scope boundary; no staged agent workflow is described."
+        },
+        "capability.memory": {
+          "verdict": "negative",
+          "readmeLines": [
+            24,
+            26,
+            59,
+            60,
+            61,
+            62,
+            97,
+            98
+          ],
+          "reason": "Resources are generic and the supplied resource is a greeting; no agent memory/context-management mechanism, knowledge-source retrieval component or owned retrieval-agent example is documented."
+        },
+        "capability.evaluation": {
+          "verdict": "negative",
+          "readmeLines": [
+            68,
+            71,
+            74,
+            76
+          ],
+          "reason": "MCP Inspector is an external linked debugger, and the dev command is not documented as observing or measuring an agent execution. No owned agent tracing/evaluation mechanism is established."
+        },
+        "capability.runtime": {
+          "verdict": "positive",
+          "readmeLines": [
+            37,
+            40,
+            71,
+            85,
+            105
+          ],
+          "reason": "The owned mcp CLI runs/installs MCP components and the client can launch local servers as subprocesses: actual management of agent-specific protocol components, not an external host installation command alone."
+        },
+        "capability.interaction": {
+          "verdict": "positive",
+          "readmeLines": [
+            24,
+            26,
+            27,
+            28,
+            82,
+            97,
+            98,
+            105
+          ],
+          "reason": "The owned MCP server/client implementation connects LLM/agent applications to data/tools through standard transports and concrete client tool calls. This is actual agent integration infrastructure."
+        }
+      },
+      "relevanceReason": "The actual supplied text explicitly documents owned agent functionality/infrastructure, not theoretical generic utility use. Maintenance, experimental or educational status does not remove owned agent delivery.",
+      "reason": "Independent full single-README/name/description/topics annotation before any Jev call for this exact repository. Frozen32 label meanings used; no expected probabilities, no model-derived gold and no prompt advice. Boundaries allow semantic uncertainty and are not required-abstention predictions.",
+      "expectedAppliedLabels": null
+    },
+    {
+      "name": "microsoft/autogen",
+      "sha": "25f7cc162ae92c3988966d85cce173ff6df48020",
+      "hash": "e5c35ff7742e027549a903dcc449baeadf4efb58e657e5254d2cb640e0b320cf",
+      "readAt": "2026-10-16T02:55:03.157Z",
+      "evidence": {
+        "full_name": "microsoft/autogen",
+        "description": "A programming framework for agentic AI",
+        "topics": [
+          "agentic",
+          "agentic-agi",
+          "agents",
+          "ai",
+          "autogen",
+          "autogen-ecosystem",
+          "chatgpt",
+          "framework",
+          "llm-agent",
+          "llm-framework"
+        ],
+        "readme": {
+          "path": "README.md",
+          "text": "<a name=\"readme-top\"></a>\n\n<div align=\"center\">\n<img src=\"https://microsoft.github.io/autogen/0.2/img/ag.svg\" alt=\"AutoGen Logo\" width=\"100\">\n\n[![Twitter](https://img.shields.io/twitter/url/https/twitter.com/cloudposse.svg?style=social&label=Follow%20%40pyautogen)](https://twitter.com/pyautogen)\n[![LinkedIn](https://img.shields.io/badge/LinkedIn-Company?style=flat&logo=linkedin&logoColor=white)](https://www.linkedin.com/company/105812540)\n[![Discord](https://img.shields.io/badge/discord-chat-green?logo=discord)](https://aka.ms/autogen-discord)\n[![Documentation](https://img.shields.io/badge/Documentation-AutoGen-blue?logo=read-the-docs)](https://microsoft.github.io/autogen/)\n[![Blog](https://img.shields.io/badge/Blog-AutoGen-blue?logo=blogger)](https://devblogs.microsoft.com/autogen/)\n\n</div>\n\n# AutoGen [![Maintenance Mode](https://img.shields.io/badge/status-maintenance%20mode-orange)](https://github.com/microsoft/agent-framework)\n\n**AutoGen** is a framework for creating multi-agent AI applications that can act autonomously or work alongside humans.\n\n> [!CAUTION]\n> **⚠️ Maintenance Mode**\n>\n> AutoGen is now in maintenance mode. It will not receive new features or enhancements and is community managed going forward.\n>\n> New users should start with [Microsoft Agent Framework](https://github.com/microsoft/agent-framework). Existing users are encouraged to migrate using the [AutoGen → Microsoft Agent Framework migration guide](https://learn.microsoft.com/en-us/agent-framework/migration-guide/from-autogen/).\n>\n> Microsoft Agent Framework (MAF) is the enterprise‑ready successor to AutoGen. Microsoft Agent FrameworkAF in now available as a production-ready release: stable APIs, and a commitment to long-term support. Whether you're building a single assistant or orchestrating a fleet of specialized agents, Microsoft Agent Framework 1.0 gives you enterprise-grade multi-agent orchestration, multi-provider model support, and cross-runtime interoperability via A2A and MCP.\n\n## Installation\n\nAutoGen requires **Python 3.10 or later**.\n\n```bash\n# Install AgentChat and OpenAI client from Extensions\npip install -U \"autogen-agentchat\" \"autogen-ext[openai]\"\n```\n\nThe current stable version can be found in the [releases](https://github.com/microsoft/autogen/releases). If you are upgrading from AutoGen v0.2, please refer to the [Migration Guide](https://microsoft.github.io/autogen/stable/user-guide/agentchat-user-guide/migration-guide.html) for detailed instructions on how to update your code and configurations.\n\n```bash\n# Install AutoGen Studio for no-code GUI\npip install -U \"autogenstudio\"\n```\n\n## Quickstart\n\nThe following samples call OpenAI API, so you first need to create an account and export your key as `export OPENAI_API_KEY=\"sk-...\"`.\n\n### Hello World\n\nCreate an assistant agent using OpenAI's GPT-4o model. See [other supported models](https://microsoft.github.io/autogen/stable/user-guide/agentchat-user-guide/tutorial/models.html).\n\n```python\nimport asyncio\nfrom autogen_agentchat.agents import AssistantAgent\nfrom autogen_ext.models.openai import OpenAIChatCompletionClient\n\nasync def main() -> None:\n    model_client = OpenAIChatCompletionClient(model=\"gpt-4.1\")\n    agent = AssistantAgent(\"assistant\", model_client=model_client)\n    print(await agent.run(task=\"Say 'Hello World!'\"))\n    await model_client.close()\n\nasyncio.run(main())\n```\n\n### MCP Server\n\nCreate a web browsing assistant agent that uses the Playwright MCP server.\n\n```python\n# First run `npm install -g @playwright/mcp@latest` to install the MCP server.\nimport asyncio\nfrom autogen_agentchat.agents import AssistantAgent\nfrom autogen_agentchat.ui import Console\nfrom autogen_ext.models.openai import OpenAIChatCompletionClient\nfrom autogen_ext.tools.mcp import McpWorkbench, StdioServerParams\n\n\nasync def main() -> None:\n    model_client = OpenAIChatCompletionClient(model=\"gpt-4.1\")\n    server_params = StdioServerParams(\n        command=\"npx\",\n        args=[\n            \"@playwright/mcp@latest\",\n            \"--headless\",\n        ],\n    )\n    async with McpWorkbench(server_params) as mcp:\n        agent = AssistantAgent(\n            \"web_browsing_assistant\",\n            model_client=model_client,\n            workbench=mcp, # For multiple MCP servers, put them in a list.\n            model_client_stream=True,\n            max_tool_iterations=10,\n        )\n        await Console(agent.run_stream(task=\"Find out how many contributors for the microsoft/autogen repository\"))\n\n\nasyncio.run(main())\n```\n\n> **Warning**: Only connect to trusted MCP servers as they may execute commands\n> in your local environment or expose sensitive information.\n\n### Multi-Agent Orchestration\n\nYou can use `AgentTool` to create a basic multi-agent orchestration setup.\n\n```python\nimport asyncio\n\nfrom autogen_agentchat.agents import AssistantAgent\nfrom autogen_agentchat.tools import AgentTool\nfrom autogen_agentchat.ui import Console\nfrom autogen_ext.models.openai import OpenAIChatCompletionClient\n\n\nasync def main() -> None:\n    model_client = OpenAIChatCompletionClient(model=\"gpt-4.1\")\n\n    math_agent = AssistantAgent(\n        \"math_expert\",\n        model_client=model_client,\n        system_message=\"You are a math expert.\",\n        description=\"A math expert assistant.\",\n        model_client_stream=True,\n    )\n    math_agent_tool = AgentTool(math_agent, return_value_as_last_message=True)\n\n    chemistry_agent = AssistantAgent(\n        \"chemistry_expert\",\n        model_client=model_client,\n        system_message=\"You are a chemistry expert.\",\n        description=\"A chemistry expert assistant.\",\n        model_client_stream=True,\n    )\n    chemistry_agent_tool = AgentTool(chemistry_agent, return_value_as_last_message=True)\n\n    agent = AssistantAgent(\n        \"assistant\",\n        system_message=\"You are a general assistant. Use expert tools when needed.\",\n        model_client=model_client,\n        model_client_stream=True,\n        tools=[math_agent_tool, chemistry_agent_tool],\n        max_tool_iterations=10,\n    )\n    await Console(agent.run_stream(task=\"What is the integral of x^2?\"))\n    await Console(agent.run_stream(task=\"What is the molecular weight of water?\"))\n\n\nasyncio.run(main())\n```\n\nFor more advanced multi-agent orchestrations and workflows, read\n[AgentChat documentation](https://microsoft.github.io/autogen/stable/user-guide/agentchat-user-guide/index.html).\n\n### AutoGen Studio\n\nUse AutoGen Studio to prototype and run multi-agent workflows without writing code.\n\n> **Caution**: AutoGen Studio is meant to help you rapidly prototype multi-agent workflows and\n> demonstrate an example of end user interfaces built with AutoGen. It is **not meant to be a\n> production-ready app**. Developers are encouraged to use the AutoGen framework to build their own\n> applications, implementing authentication, security and other features required for deployed\n> applications. See the [security note](https://microsoft.github.io/autogen/dev/user-guide/autogenstudio-user-guide/index.html#a-note-on-security) for more details.\n\n```bash\n# Run AutoGen Studio on http://localhost:8080\nautogenstudio ui --port 8080 --appdir ./my-app\n```\n\n## Why AutoGen?\n\n<div align=\"center\">\n  <img src=\"autogen-landing.jpg\" alt=\"AutoGen Landing\" width=\"500\">\n</div>\n\nPioneered in Microsoft Research, AutoGen opened the door to experimental multi-agent orchestration patterns that inspired the community. While AutoGen is now in maintenance mode, existing users can continue to use the framework with the architecture described below. **For new projects, we recommend [Microsoft Agent Framework](https://github.com/microsoft/agent-framework)**, which builds on the lessons learned from AutoGen with enterprise-grade support.\n\nThe autogen _framework_ uses a layered and extensible design. Layers have clearly divided responsibilities and build on top of layers below. This design enables you to use the framework at different levels of abstraction, from high-level APIs to low-level components.\n\n- [Core API](./python/packages/autogen-core/) implements message passing, event-driven agents, and local and distributed runtime for flexibility and power. It also support cross-language support for .NET and Python.\n- [AgentChat API](./python/packages/autogen-agentchat/) implements a simpler but opinionated API for rapid prototyping. This API is built on top of the Core API and is closest to what users of v0.2 are familiar with and supports common multi-agent patterns such as two-agent chat or group chats.\n- [Extensions API](./python/packages/autogen-ext/) enables first- and third-party extensions continuously expanding framework capabilities. It support specific implementation of LLM clients (e.g., OpenAI, AzureOpenAI), and capabilities such as code execution.\n\nThe ecosystem also supports two essential _developer tools_:\n\n<div align=\"center\">\n  <img src=\"https://media.githubusercontent.com/media/microsoft/autogen/refs/heads/main/python/packages/autogen-studio/docs/ags_screen.png\" alt=\"AutoGen Studio Screenshot\" width=\"500\">\n</div>\n\n- [AutoGen Studio](./python/packages/autogen-studio/) provides a no-code GUI for building multi-agent applications.\n- [AutoGen Bench](./python/packages/agbench/) provides a benchmarking suite for evaluating agent performance.\n\nYou can use the AutoGen framework and developer tools to create applications for your domain. For example, [Magentic-One](./python/packages/magentic-one-cli/) is a state-of-the-art multi-agent team built using AgentChat API and Extensions API that can handle a variety of tasks that require web browsing, code execution, and file handling.\n\nFor community support, visit our [Discord server](https://aka.ms/autogen-discord) or [GitHub Discussions](https://github.com/microsoft/autogen/discussions). Note that AutoGen is now community-managed and responses may be limited.\n\n## Where to go next?\n\n> **Starting a new project?** Head to [Microsoft Agent Framework](https://github.com/microsoft/agent-framework) for the latest multi-agent capabilities with long-term support.\n>\n> **Existing AutoGen user?** Use the [migration guide](https://learn.microsoft.com/en-us/agent-framework/migration-guide/from-autogen/) to transition, or refer to the resources below for current AutoGen documentation.\n\n<div align=\"center\">\n\n|               | [![Python](https://img.shields.io/badge/AutoGen-Python-blue?logo=python&logoColor=white)](./python)                                                                                                                                                                                                                                                                                                                | [![.NET](https://img.shields.io/badge/AutoGen-.NET-green?logo=.net&logoColor=white)](./dotnet)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    | [![Studio](https://img.shields.io/badge/AutoGen-Studio-purple?logo=visual-studio&logoColor=white)](./python/packages/autogen-studio)                        |\n| ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |\n| Installation  | [![Installation](https://img.shields.io/badge/Install-blue)](https://microsoft.github.io/autogen/stable/user-guide/agentchat-user-guide/installation.html)                                                                                                                                                                                                                                                         | [![Install](https://img.shields.io/badge/Install-green)](https://microsoft.github.io/autogen/dotnet/dev/core/installation.html)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | [![Install](https://img.shields.io/badge/Install-purple)](https://microsoft.github.io/autogen/stable/user-guide/autogenstudio-user-guide/installation.html) |\n| Quickstart    | [![Quickstart](https://img.shields.io/badge/Quickstart-blue)](https://microsoft.github.io/autogen/stable/user-guide/agentchat-user-guide/quickstart.html#)                                                                                                                                                                                                                                                         | [![Quickstart](https://img.shields.io/badge/Quickstart-green)](https://microsoft.github.io/autogen/dotnet/dev/core/index.html)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    | [![Usage](https://img.shields.io/badge/Quickstart-purple)](https://microsoft.github.io/autogen/stable/user-guide/autogenstudio-user-guide/usage.html#)      |\n| Tutorial      | [![Tutorial](https://img.shields.io/badge/Tutorial-blue)](https://microsoft.github.io/autogen/stable/user-guide/agentchat-user-guide/tutorial/index.html)                                                                                                                                                                                                                                                          | [![Tutorial](https://img.shields.io/badge/Tutorial-green)](https://microsoft.github.io/autogen/dotnet/dev/core/tutorial.html)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     | [![Usage](https://img.shields.io/badge/Tutorial-purple)](https://microsoft.github.io/autogen/stable/user-guide/autogenstudio-user-guide/usage.html#)        |\n| API Reference | [![API](https://img.shields.io/badge/Docs-blue)](https://microsoft.github.io/autogen/stable/reference/index.html#)                                                                                                                                                                                                                                                                                                 | [![API](https://img.shields.io/badge/Docs-green)](https://microsoft.github.io/autogen/dotnet/dev/api/Microsoft.AutoGen.Contracts.html)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            | [![API](https://img.shields.io/badge/Docs-purple)](https://microsoft.github.io/autogen/stable/user-guide/autogenstudio-user-guide/usage.html)               |\n| Packages      | [![PyPi autogen-core](https://img.shields.io/badge/PyPi-autogen--core-blue?logo=pypi)](https://pypi.org/project/autogen-core/) <br> [![PyPi autogen-agentchat](https://img.shields.io/badge/PyPi-autogen--agentchat-blue?logo=pypi)](https://pypi.org/project/autogen-agentchat/) <br> [![PyPi autogen-ext](https://img.shields.io/badge/PyPi-autogen--ext-blue?logo=pypi)](https://pypi.org/project/autogen-ext/) | [![NuGet Contracts](https://img.shields.io/badge/NuGet-Contracts-green?logo=nuget)](https://www.nuget.org/packages/Microsoft.AutoGen.Contracts/) <br> [![NuGet Core](https://img.shields.io/badge/NuGet-Core-green?logo=nuget)](https://www.nuget.org/packages/Microsoft.AutoGen.Core/) <br> [![NuGet Core.Grpc](https://img.shields.io/badge/NuGet-Core.Grpc-green?logo=nuget)](https://www.nuget.org/packages/Microsoft.AutoGen.Core.Grpc/) <br> [![NuGet RuntimeGateway.Grpc](https://img.shields.io/badge/NuGet-RuntimeGateway.Grpc-green?logo=nuget)](https://www.nuget.org/packages/Microsoft.AutoGen.RuntimeGateway.Grpc/) | [![PyPi autogenstudio](https://img.shields.io/badge/PyPi-autogenstudio-purple?logo=pypi)](https://pypi.org/project/autogenstudio/)                          |\n\n</div>\n\nInterested in contributing? See [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines. As AutoGen is in maintenance mode, contributions are limited to bug fixes, security patches, and documentation improvements. For feature development, consider contributing to [Microsoft Agent Framework](https://github.com/microsoft/agent-framework).\n\nHave questions? Check out our [Frequently Asked Questions (FAQ)](./FAQ.md) for answers to common queries. Community support is available through [GitHub Discussions](https://github.com/microsoft/autogen/discussions) and the [Discord server](https://aka.ms/autogen-discord), though response times may vary as AutoGen is now community-managed. For actively supported tooling, see [Microsoft Agent Framework](https://github.com/microsoft/agent-framework).\n\n## Legal Notices\n\nMicrosoft and any contributors grant you a license to the Microsoft documentation and other content\nin this repository under the [Creative Commons Attribution 4.0 International Public License](https://creativecommons.org/licenses/by/4.0/legalcode),\nsee the [LICENSE](LICENSE) file, and grant you a license to any code in the repository under the [MIT License](https://opensource.org/licenses/MIT), see the\n[LICENSE-CODE](LICENSE-CODE) file.\n\nMicrosoft, Windows, Microsoft Azure, and/or other Microsoft products and services referenced in the documentation\nmay be either trademarks or registered trademarks of Microsoft in the United States and/or other countries.\nThe licenses for this project do not grant you rights to use any Microsoft names, logos, or trademarks.\nMicrosoft's general trademark guidelines can be found at <http://go.microsoft.com/fwlink/?LinkID=254653>.\n\nPrivacy information can be found at <https://go.microsoft.com/fwlink/?LinkId=521839>\n\nMicrosoft and any contributors reserve all other rights, whether under their respective copyrights, patents,\nor trademarks, whether by implication, estoppel, or otherwise.\n\n<p align=\"right\" style=\"font-size: 14px; color: #555; margin-top: 20px;\">\n  <a href=\"#readme-top\" style=\"text-decoration: none; color: blue; font-weight: bold;\">\n    ↑ Back to Top ↑\n  </a>\n</p>\n",
+          "truncated": false
+        }
+      },
+      "group": "independent-unseen-34",
+      "category": "Maintenance-mode mixed framework, GUI, executable team and benchmark packages; separate current owned components from the external successor.",
+      "relevance": true,
+      "disposition": "judged",
+      "positive": [
+        "form.tools",
+        "form.extensions",
+        "form.workflows",
+        "purpose.development",
+        "purpose.research",
+        "capability.orchestration",
+        "capability.evaluation",
+        "capability.runtime",
+        "capability.interaction"
+      ],
+      "negative": [
+        "form.skills",
+        "form.catalogs",
+        "purpose.content",
+        "purpose.learning",
+        "capability.memory"
+      ],
+      "abstain": [],
+      "boundary": [
+        "purpose.office"
+      ],
+      "labelEvidence": {
+        "form.tools": {
+          "verdict": "positive",
+          "readmeLines": [
+            39,
+            40,
+            156,
+            158,
+            167,
+            168,
+            191,
+            194
+          ],
+          "reason": "Owned AutoGen Studio is an executable GUI, and the local magentic-one-cli package is an executable agent team. Maintenance/prototype status does not negate these deliverables."
+        },
+        "form.skills": {
+          "verdict": "negative",
+          "readmeLines": [
+            49,
+            58,
+            80,
+            88,
+            120,
+            129,
+            138,
+            181,
+            182,
+            183
+          ],
+          "reason": "The README documents agent definitions/configuration, framework APIs and runnable apps, not owned reusable task-skill packages."
+        },
+        "form.extensions": {
+          "verdict": "positive",
+          "readmeLines": [
+            80,
+            81,
+            82,
+            83,
+            84,
+            85,
+            88,
+            90,
+            93,
+            120,
+            123,
+            129,
+            132,
+            140,
+            144
+          ],
+          "reason": "Inline MCP client launch command/arguments and per-agent model/system-message/tool/iteration settings are actual non-skill agent configurations. The external server need not be owned."
+        },
+        "form.workflows": {
+          "verdict": "positive",
+          "readmeLines": [
+            16,
+            104,
+            106,
+            153,
+            158,
+            181,
+            182
+          ],
+          "reason": "The owned AutoGen framework and AgentChat explicitly build/orchestrate multi-agent workflows."
+        },
+        "form.catalogs": {
+          "verdict": "negative",
+          "readmeLines": [
+            16,
+            177,
+            179,
+            181,
+            182,
+            183,
+            191,
+            192
+          ],
+          "reason": "The primary deliverables remain owned agent framework/apps/developer tools, not a curated reference catalog or the external successor project."
+        },
+        "purpose.development": {
+          "verdict": "positive",
+          "readmeLines": [
+            16,
+            158,
+            162,
+            163,
+            181,
+            183,
+            191,
+            194
+          ],
+          "reason": "Actual uses build/prototype agent applications and perform code execution/development through owned components."
+        },
+        "purpose.office": {
+          "verdict": "boundary",
+          "readmeLines": [
+            194
+          ],
+          "reason": "Owned Magentic-One explicitly supports file handling, but the text does not distinguish document/personal-productivity handling from coding/filesystem operations. Retain this documentary task-purpose boundary rather than assume all files are office documents."
+        },
+        "purpose.content": {
+          "verdict": "negative",
+          "readmeLines": [
+            47,
+            65,
+            104,
+            156,
+            174,
+            194
+          ],
+          "reason": "The actual supplied examples are agent construction, browsing, math/chemistry and code/file handling. No user creative writing/design/media/marketing purpose is documented; own promotional images do not count."
+        },
+        "purpose.research": {
+          "verdict": "positive",
+          "readmeLines": [
+            120,
+            123,
+            129,
+            132,
+            146,
+            147
+          ],
+          "reason": "The supplied multi-agent math/chemistry experts solve an integral and molecular-weight calculation: explicit scientific/mathematical analysis tasks of the actual agent example, not merely the product research provenance or a linked paper."
+        },
+        "purpose.learning": {
+          "verdict": "negative",
+          "readmeLines": [
+            36,
+            43,
+            47,
+            65,
+            104,
+            198,
+            209,
+            210,
+            211
+          ],
+          "reason": "The README supplies ordinary product quickstarts/tutorial/reference links, not an actual knowledge-organizing feature or an explicit human educational/study deliverable. Math/chemistry answers alone do not document tutoring/teaching intent."
+        },
+        "capability.orchestration": {
+          "verdict": "positive",
+          "readmeLines": [
+            104,
+            106,
+            127,
+            136,
+            138,
+            143,
+            144,
+            181,
+            182
+          ],
+          "reason": "AgentTool delegation and core/AgentChat coordination mechanisms explicitly implement multi-agent task progression."
+        },
+        "capability.memory": {
+          "verdict": "negative",
+          "readmeLines": [
+            67,
+            95,
+            181,
+            182,
+            194
+          ],
+          "reason": "Group chat/message passing, a contributor-count browsing task and generic file handling do not document a dedicated memory/context mechanism or knowledge-source retrieval component; no such component/example is named in the supplied README."
+        },
+        "capability.evaluation": {
+          "verdict": "positive",
+          "readmeLines": [
+            191,
+            192
+          ],
+          "reason": "The owned local AutoGen Bench package is explicitly a benchmarking suite evaluating agent performance."
+        },
+        "capability.runtime": {
+          "verdict": "positive",
+          "readmeLines": [
+            49,
+            57,
+            79,
+            90,
+            181,
+            183
+          ],
+          "reason": "Owned LLM clients/model settings and local/distributed agent runtimes manage agent/model execution; external successor capabilities are not attributed to AutoGen."
+        },
+        "capability.interaction": {
+          "verdict": "positive",
+          "readmeLines": [
+            67,
+            75,
+            80,
+            87,
+            95,
+            158,
+            161,
+            168,
+            191
+          ],
+          "reason": "The owned MCP workbench/browser-agent example and Studio UI establish application integration and agent interface functionality, independently of external server ownership."
+        }
+      },
+      "relevanceReason": "The actual supplied text explicitly documents owned agent functionality/infrastructure, not theoretical generic utility use. Maintenance, experimental or educational status does not remove owned agent delivery.",
+      "reason": "Independent full single-README/name/description/topics annotation before any Jev call for this exact repository. Frozen32 label meanings used; no expected probabilities, no model-derived gold and no prompt advice. Boundaries allow semantic uncertainty and are not required-abstention predictions.",
+      "expectedAppliedLabels": null
+    },
+    {
+      "name": "pydantic/pydantic-ai",
+      "sha": "6ab8aa053ae054d46a8c992b09853b316359ceef",
+      "hash": "5701721810ae8d19ad5f0e40fa02bbd5c60b5a09bffb3e2d85e30a0fbf6db151",
+      "readAt": "2026-10-16T02:54:58.838Z",
+      "evidence": {
+        "full_name": "pydantic/pydantic-ai",
+        "description": "How Python does AI. Agents, realtime voice, image generation, embeddings. Every model, every interface, typed end to end.",
+        "topics": [
+          "agent-framework",
+          "genai",
+          "harness",
+          "harness-engineering",
+          "llm",
+          "pydantic",
+          "python"
+        ],
+        "readme": {
+          "path": "README.md",
+          "text": "<div align=\"center\">\n  <a href=\"https://pydantic.dev/docs/ai/\">\n    <picture>\n      <source media=\"(prefers-color-scheme: dark)\" srcset=\"https://pydantic.dev/docs/ai/img/pydantic-ai-dark.svg\">\n      <img src=\"https://pydantic.dev/docs/ai/img/pydantic-ai-light.svg\" alt=\"Pydantic AI\">\n    </picture>\n  </a>\n</div>\n<div align=\"center\">\n  <h3>How Python does AI</h3>\n</div>\n<div align=\"center\">\n  <a href=\"https://github.com/pydantic/pydantic-ai/actions/workflows/ci.yml?query=branch%3Amain\"><img src=\"https://github.com/pydantic/pydantic-ai/actions/workflows/ci.yml/badge.svg?event=push\" alt=\"CI\"></a>\n  <img src=\"https://img.shields.io/badge/coverage-100%25-brightgreen.svg\" alt=\"Coverage\">\n  <a href=\"https://pypi.python.org/pypi/pydantic-ai\"><img src=\"https://img.shields.io/pypi/v/pydantic-ai.svg\" alt=\"PyPI\"></a>\n  <a href=\"https://github.com/pydantic/pydantic-ai\"><img src=\"https://img.shields.io/pypi/pyversions/pydantic-ai.svg\" alt=\"versions\"></a>\n  <a href=\"https://github.com/pydantic/pydantic-ai/blob/main/LICENSE\"><img src=\"https://img.shields.io/github/license/pydantic/pydantic-ai.svg?v\" alt=\"license\"></a>\n  <a href=\"https://logfire.pydantic.dev/docs/join-slack/\"><img src=\"https://img.shields.io/badge/Slack-Join%20Slack-4A154B?logo=slack\" alt=\"Join Slack\" /></a>\n</div>\n<p align=\"center\">\n  Agents, realtime voice, image generation, embeddings. Every model, every interface, typed end to end.\n</p>\n\n---\n\n**Pydantic AI** is the Python AI SDK: a typed, [extensible](https://pydantic.dev/docs/ai/guides/extensibility/) agent loop with [every model](https://pydantic.dev/docs/ai/models/overview/) a string swap away. The same agent [runs everywhere you need it](https://pydantic.dev/docs/ai/overview/interfaces/): behind a [web frontend](https://pydantic.dev/docs/ai/integrations/ui/overview/), in the [terminal](https://pydantic.dev/docs/ai/integrations/cli/), on a [voice call](https://pydantic.dev/docs/ai/realtime/overview/), on a [durable background queue](https://pydantic.dev/docs/ai/capabilities/durable_execution/overview/), in [GitHub Actions](https://pydantic.dev/docs/ai/harness/gh-aw/), or as a plain object you call [`run()`](https://pydantic.dev/docs/ai/core-concepts/agent/#running-agents) on. [Image generation](https://pydantic.dev/docs/ai/guides/image-generation/) and [embeddings](https://pydantic.dev/docs/ai/guides/embeddings/) come in the same box; [Pydantic Graph](https://pydantic.dev/docs/ai/graph/graph/) and [Pydantic Evals](https://pydantic.dev/docs/ai/evals/evals/) are separate packages, for typed control flow and for testing agent behavior the way pytest tests code.\n\n**[Pydantic AI Harness](https://pydantic.dev/docs/ai/harness/)** has everything an agent needs for complex, long-running work, snapped on as [capabilities](https://pydantic.dev/docs/ai/capabilities/overview/), from [memory](https://pydantic.dev/docs/ai/harness/memory/), [guardrails](https://pydantic.dev/docs/ai/harness/guardrails/), and [sub-agents](https://pydantic.dev/docs/ai/harness/subagents/) to [planning](https://pydantic.dev/docs/ai/harness/planning/), [context management](https://pydantic.dev/docs/ai/harness/compaction/), and [persistence](https://pydantic.dev/docs/ai/core-concepts/persistence/), up to a complete [coding agent](https://pydantic.dev/docs/ai/harness/coder/).\n\n[Pydantic Logfire](https://pydantic.dev/logfire?utm_source=github&utm_medium=readme&utm_campaign=pydantic-ai) is the AI observability platform that sees your whole app, not just the LLM calls, and the [Pydantic AI Gateway](https://pydantic.dev/ai-gateway?utm_source=github&utm_medium=readme&utm_campaign=pydantic-ai) is one key for every model with real-time cost monitoring and budget control; the Gateway self-hosts if you would rather, and our [instrumentation](https://pydantic.dev/docs/ai/integrations/logfire/) is plain OpenTelemetry, so any backend you already run works. Underneath both, [genai-prices](https://github.com/pydantic/genai-prices) keeps model pricing current, and [Monty](https://github.com/pydantic/monty) is the sandboxed Python interpreter that runs model-written code.\n\nView the complete documentation at [pydantic.dev/docs/ai](https://pydantic.dev/docs/ai/).\n\n## What are you building?\n\nFrom simple typed data extraction to complex, long-running multi-agent collaboration, Pydantic AI and [Pydantic AI Harness](https://pydantic.dev/docs/ai/harness/) have got you covered.\n\n### Coding agent\n\nA complete coding agent in your terminal: workspace-rooted [file access](https://pydantic.dev/docs/ai/harness/filesystem/), allowlisted [shell](https://pydantic.dev/docs/ai/harness/shell/), [repo orientation](https://pydantic.dev/docs/ai/harness/repo-context/), [planning](https://pydantic.dev/docs/ai/harness/planning/), and [context management](https://pydantic.dev/docs/ai/harness/compaction/) that survives long sessions. Here with [web search](https://pydantic.dev/docs/ai/capabilities/web-search/) and a second-opinion [advisor](https://pydantic.dev/docs/ai/harness/advisor/) snapped on alongside:\n\n```bash\nuv add pydantic-ai pydantic-ai-harness\n```\n\n```python\nfrom pydantic_ai import Agent\nfrom pydantic_ai.capabilities import WebSearch\nfrom pydantic_ai_harness import Advisor, Coder\n\nagent = Agent(\n    'anthropic:claude-fable-5-1',\n    capabilities=[\n        Coder(),  # files, shell, repo context, sub-agents, context management\n        WebSearch(),  # look up docs and error messages on the web\n        Advisor('openai:gpt-6.1-sol'),  # a second opinion from another model when stuck\n    ],\n)\nagent.to_cli_sync()\n```\n\n[`Coder`](https://pydantic.dev/docs/ai/harness/coder/) is a regular [combined capability](https://pydantic.dev/docs/ai/capabilities/custom/#composition-and-middleware-semantics), not a black box: use it whole, or use the blocks it bundles directly; the two are equivalent:\n\n```python\ncapabilities = [\n    FileSystem('.'), Shell(cwd='.'), RepoContext(), SubAgents(...),\n    ClearToolResults(), ToolOutputLimits(), RepairToolArguments(),\n]\n```\n\nRun the file and you're chatting with the agent in your terminal. To try it before writing any code, run the exported [`coder_agent`](https://pydantic.dev/docs/ai/harness/coder/) with [`clai`](https://pydantic.dev/docs/ai/integrations/cli/#custom-agents) (the Pydantic AI CLI), via [`uvx`](https://docs.astral.sh/uv/guides/tools/):\n\n```bash\nuvx --with pydantic-ai-harness clai -a pydantic_ai_harness.coder:coder_agent -m anthropic:claude-fable-5-1\n```\n\n**Build this →** [Coder](https://pydantic.dev/docs/ai/harness/coder/), from the [Harness](https://pydantic.dev/docs/ai/harness/)\n\n**Run it on GitHub →** [GitHub Agentic Workflows](https://pydantic.dev/docs/ai/harness/gh-aw/), on issues, pull requests or a schedule\n\n### Data extraction\n\nGive the agent an [output type](https://pydantic.dev/docs/ai/core-concepts/output/) and [tools](https://pydantic.dev/docs/ai/tools-toolsets/tools/), and every run comes back validated and typed:\n\n```bash\nuv add pydantic-ai\n```\n\n```python\nfrom typing import Literal\n\nfrom pydantic import BaseModel, Field\n\nfrom pydantic_ai import Agent, RunContext\n\n\nclass Sentiment(BaseModel):\n    label: Literal['positive', 'negative', 'neutral']\n    score: float = Field(ge=-1, le=1)\n\n\nagent = Agent('openai:gpt-6.1-sol', output_type=Sentiment)\n\n\n@agent.tool\ndef recent_reviews(ctx: RunContext, product: str) -> list[str]:\n    \"\"\"Fetch recent review snippets for a product.\"\"\"\n    return ['The new release fixed everything I complained about!']\n\n\nresult = agent.run_sync('How are people feeling about the Extract app?')\nprint(result.output)\n#> label='positive' score=0.9\n```\n\nThe [`@agent.tool`](https://pydantic.dev/docs/ai/tools-toolsets/tools/) function receives a [`RunContext`](https://pydantic.dev/docs/ai/core-concepts/dependencies/) that carries your dependencies in; the rest of its signature and its docstring become the tool schema, arguments are validated before your code runs, and the run is guaranteed to return a `Sentiment`, so your IDE, type checker, and the LLM all agree on the returned type.\n\n**Build this →** [Agents](https://pydantic.dev/docs/ai/core-concepts/agent/), [Function Tools](https://pydantic.dev/docs/ai/tools-toolsets/tools/), and [Structured Output](https://pydantic.dev/docs/ai/core-concepts/output/)\n\n### Durable workflow\n\nAttach [`TemporalDurability`](https://pydantic.dev/docs/ai/capabilities/durable_execution/temporal/) and the same agent runs inside a [Temporal](https://pydantic.dev/docs/ai/capabilities/durable_execution/temporal/) workflow under [durable execution](https://pydantic.dev/docs/ai/capabilities/durable_execution/overview/): every model and tool call becomes a durable activity, so a run working through a background queue survives restarts, failures, and long waits:\n\n```bash\nuv add \"pydantic-ai[temporal]\"\n```\n\n```python\nfrom temporalio import workflow\n\nfrom pydantic_ai import Agent\nfrom pydantic_ai.capabilities import WebFetch, WebSearch\nfrom pydantic_ai.durable_exec.temporal import PydanticAIWorkflow, TemporalDurability\n\nagent = Agent(\n    'openai:gpt-6.1-sol',\n    instructions='Research the topic and write a structured brief.',\n    name='researcher',\n    capabilities=[WebSearch(), WebFetch(), TemporalDurability()],\n)\n\n\n@workflow.defn\nclass ResearchWorkflow(PydanticAIWorkflow):\n    __pydantic_ai_agents__ = [agent]\n\n    @workflow.run\n    async def run(self, topic: str) -> str:\n        result = await agent.run(f'Write a brief on: {topic}')\n        return result.output\n```\n\n[DBOS](https://pydantic.dev/docs/ai/capabilities/durable_execution/dbos/) and [Prefect](https://pydantic.dev/docs/ai/capabilities/durable_execution/prefect/) attach the same way, first-party and co-maintained, with [Restate, AWS Lambda, Kitaru, Airflow, Absurd, and pgtask](https://pydantic.dev/docs/ai/capabilities/durable_execution/overview/) integrations besides.\n\n**Build this →** [Durable Execution](https://pydantic.dev/docs/ai/capabilities/durable_execution/overview/)\n\n### Realtime voice\n\nPut the same agent on a live voice session, [tools](https://pydantic.dev/docs/ai/realtime/tools/) and [capabilities](https://pydantic.dev/docs/ai/realtime/capabilities/) included:\n\n```bash\nuv add \"pydantic-ai[openai-realtime]\"\n```\n\n```python\nimport asyncio\n\nfrom pydantic_ai import Agent\nfrom pydantic_ai.capabilities import MCP\n\nagent = Agent(\n    instructions='You are a helpful voice assistant.',\n    capabilities=[MCP('https://internal.example.com/mcp')],  # capabilities work in voice too\n)\n\n@agent.tool_plain\ndef order_status(order_id: str) -> str:\n    \"\"\"Look up the status of an order.\"\"\"\n    return f'Order {order_id}: shipped, arriving Thursday.'\n\nasync with agent.realtime('openai:gpt-realtime-2.1').session() as session:\n    microphone = asyncio.create_task(session.send_audio(microphone_chunks()))  # your microphone → the model\n    speaker = asyncio.create_task(play_audio(session.stream_audio()))  # model audio → your speaker\n    async for part in session.stream_transcripts():\n        print(f'{part.speaker}: {part.transcript}')\n```\n\nThe model calls your tools mid-conversation while it keeps talking, and every session is [instrumented](https://pydantic.dev/docs/ai/integrations/logfire/); voice is just another frontend, on OpenAI Realtime, Gemini Live, Azure, and xAI Grok Voice.\n\n**Build this →** [Realtime Voice](https://pydantic.dev/docs/ai/realtime/overview/)\n\n### Image generation\n\nGenerate an image with a dedicated image model, no agent run required:\n\n```bash\nuv add pydantic-ai\n```\n\n```python\nfrom pathlib import Path\n\nfrom pydantic_ai import ImageGenerator\n\ngenerator = ImageGenerator('openai:gpt-image-2.5-flare')\nresult = generator.generate_sync('A minimalist logo for a coffee shop called Extract.')\nPath('logo.png').write_bytes(result.image.data)\n```\n\nThat [standalone image API](https://pydantic.dev/docs/ai/guides/image-generation/) is for when your application decides; when an agent run decides, there is [provider-native generation](https://pydantic.dev/docs/ai/tools-toolsets/native-tools/#image-generation-tool) with `output_type=BinaryImage` for a typed image [output](https://pydantic.dev/docs/ai/core-concepts/output/#image-output), and the [`ImageGeneration` capability](https://pydantic.dev/docs/ai/capabilities/image-generation/) with its fallbacks for models that generate no images of their own.\n\n**Build this →** [Image Generation](https://pydantic.dev/docs/ai/guides/image-generation/)\n\n### See your first run in Logfire\n\n> **Tip:** Add two lines before any of these agents runs, and every model call and tool call shows up in [Pydantic Logfire](https://pydantic.dev/logfire?utm_source=github&utm_medium=readme&utm_campaign=pydantic-ai). Logfire has a [free tier](https://pydantic.dev/pricing/) that needs no credit card, and you can sign up with just a GitHub account. Run `uvx logfire auth` and `uvx logfire projects new` once first, or point your coding agent at the [Logfire setup skill](https://pydantic.dev/ai-setup.md) to do it for you. The [Logfire guide](https://pydantic.dev/docs/ai/integrations/logfire/#using-logfire) has the details, and [any OpenTelemetry backend](https://pydantic.dev/docs/ai/integrations/logfire/#using-opentelemetry) works instead.\n>\n> ```python\n> import logfire\n>\n> logfire.configure()\n> logfire.instrument_pydantic_ai()\n> ```\n\n## Why Pydantic AI\n\n- **Any model, one Python API.** [Virtually every model and provider](https://pydantic.dev/docs/ai/models/overview/) (OpenAI, Anthropic, Google, Bedrock, Azure AI Foundry, Groq, Mistral, xAI, Ollama, and dozens more), swappable with a string, or through the [Pydantic AI Gateway](https://pydantic.dev/docs/ai/overview/gateway/): one key for all of them, with failover and cost monitoring built in. No flagship feature is locked to one vendor.\n\n- **Typed end to end.** [Structured outputs](https://pydantic.dev/docs/ai/core-concepts/output/), typed [dependency injection](https://pydantic.dev/docs/ai/core-concepts/dependencies/), [typed tools](https://pydantic.dev/docs/ai/tools-toolsets/tools/): your IDE, type checker, and coding agent all know what your agent returns, moving whole classes of errors from runtime to write-time. When plain control flow isn't enough, [Pydantic Graph](https://pydantic.dev/docs/ai/graph/graph/) brings the same typing to graph-based workflows.\n\n- **Measured, not vibes.** OpenTelemetry-native [instrumentation](https://pydantic.dev/docs/ai/integrations/logfire/) works with any OTel backend; one line lights up [Pydantic Logfire](https://pydantic.dev/logfire/llm-observability?utm_source=github&utm_medium=readme&utm_campaign=pydantic-ai) for real-time debugging, tracing, and cost tracking backed by [genai-prices](https://github.com/pydantic/genai-prices). [Pydantic Evals](https://pydantic.dev/docs/ai/evals/evals/) tests agent behavior the way pytest tests code.\n\n- **Batteries, composably.** One primitive, the [capability](https://pydantic.dev/docs/ai/capabilities/overview/), bundles [tools](https://pydantic.dev/docs/ai/tools-toolsets/tools/), [instructions](https://pydantic.dev/docs/ai/core-concepts/agent/#instructions), [hooks](https://pydantic.dev/docs/ai/core-concepts/hooks/), and [model settings](https://pydantic.dev/docs/ai/core-concepts/agent/#model-run-settings) into reusable units. Core ships fundamentals like [MCP](https://pydantic.dev/docs/ai/capabilities/mcp/) and [web search](https://pydantic.dev/docs/ai/capabilities/web-search/), the [Harness](https://pydantic.dev/docs/ai/harness/) ships everything else, and complete agents like [Coder](https://pydantic.dev/docs/ai/harness/coder/) and [Researcher](https://pydantic.dev/docs/ai/harness/researcher/) are just capabilities composed: they come apart the way they went together. Or skip code entirely with [YAML/JSON agent specs](https://pydantic.dev/docs/ai/core-concepts/agent-spec/).\n\n- **[Every interface](https://pydantic.dev/docs/ai/overview/interfaces/).** One agent definition runs as a [CLI](https://pydantic.dev/docs/ai/integrations/cli/), a [built-in web chat](https://pydantic.dev/docs/ai/guides/web/), or [realtime speech](https://pydantic.dev/docs/ai/realtime/overview/) (OpenAI Realtime, Gemini Live, Azure, xAI Grok Voice); [UI event streams](https://pydantic.dev/docs/ai/integrations/ui/overview/) (AG-UI, Vercel AI) connect it to your own frontend or anything else; [ACP](https://pydantic.dev/docs/ai/harness/acp/) serves it as an editor agent; and [GitHub Agentic Workflows](https://pydantic.dev/docs/ai/harness/gh-aw/) runs it headless on issues, pull requests or a schedule.\n\n- **Durable execution.** [Durable execution](https://pydantic.dev/docs/ai/capabilities/durable_execution/overview/) on nine engines: Temporal, DBOS, Prefect, Restate, AWS Lambda, Kitaru, Airflow, Absurd, and pgtask, the first five co-maintained with the vendor teams. Agents survive restarts and run for days on the engine you already operate, with [human-in-the-loop approval](https://pydantic.dev/docs/ai/tools-toolsets/deferred-tools/#human-in-the-loop-tool-approval) built in.\n\n- **Coming from another framework?** The [comparisons](https://pydantic.dev/docs/ai/comparisons/overview/) show where Pydantic AI differs from LangChain, Google ADK, the Claude Agent SDK and seven more, and the [migration skills](https://pydantic.dev/docs/ai/comparisons/migrate-from-other-frameworks/) let your coding agent port an existing application over.\n\nBuilt by the [Pydantic](https://docs.pydantic.dev) team: [Pydantic Validation](https://pydantic.dev/docs/) is the validation layer of the OpenAI SDK, the Anthropic SDK, the Google ADK, LangChain, and most of the AI ecosystem (and the foundation FastAPI was built on). Pydantic AI brings that same feeling to agents.\n\n## Putting it together: a bank support agent\n\nA typed support agent showing several features working together: [dependency injection](https://pydantic.dev/docs/ai/core-concepts/dependencies/), [function tools](https://pydantic.dev/docs/ai/tools-toolsets/tools/), [structured output](https://pydantic.dev/docs/ai/core-concepts/output/), a reusable [capability](https://pydantic.dev/docs/ai/capabilities/overview/) bundling the customer context, and an [on-demand capability](https://pydantic.dev/docs/ai/capabilities/on-demand/) the model loads only when the conversation calls for it:\n\n```python\nfrom dataclasses import dataclass\n\nfrom pydantic import BaseModel, Field\n\nfrom pydantic_ai import Agent, Capability, RunContext\n\nfrom bank_database import DatabaseConn\n\n\n@dataclass\nclass SupportDependencies:  # inject any client: DB pools, HTTP APIs, user info\n    customer_id: int\n    db: DatabaseConn\n\n\nclass SupportOutput(BaseModel):\n    support_advice: str = Field(description='Advice returned to the customer')\n    block_card: bool = Field(description=\"Whether to block the customer's card\")\n    risk: int = Field(description='Risk level of query', ge=0, le=10)\n\n\ncustomer_context = Capability[SupportDependencies](  # a reusable unit of tools + instructions\n    id='customer-context',\n    description=\"Who the customer is and what's on their account.\",\n)\n\n\n@customer_context.instructions\nasync def add_customer_name(ctx: RunContext[SupportDependencies]) -> str:\n    customer_name = await ctx.deps.db.customer_name(id=ctx.deps.customer_id)\n    return f\"The customer's name is {customer_name!r}\"\n\n\n@customer_context.tool  # signature and docstring become the tool schema the LLM sees\nasync def customer_balance(\n    ctx: RunContext[SupportDependencies], include_pending: bool\n) -> float:\n    \"\"\"Returns the customer's current account balance.\"\"\"\n    return await ctx.deps.db.customer_balance(\n        id=ctx.deps.customer_id,\n        include_pending=include_pending,\n    )\n\n\nrefunds = Capability[SupportDependencies](  # deferred: loads on demand, like a skill\n    id='refunds',\n    description='Refund eligibility and refund status.',\n    defer_loading=True,\n)\n\n\n@refunds.tool\nasync def refund_status(ctx: RunContext[SupportDependencies]) -> str:\n    \"\"\"Look up the refund status for the customer's most recent charge.\"\"\"\n    return await ctx.deps.db.refund_status(id=ctx.deps.customer_id)\n\n\nsupport_agent = Agent(\n    'openai:gpt-6.1-sol',\n    deps_type=SupportDependencies,\n    output_type=SupportOutput,  # the run returns a validated SupportOutput, typed as such\n    instructions=(\n        'You are a support agent in our bank, give the '\n        'customer support and judge the risk level of their query.'\n    ),\n    capabilities=[customer_context, refunds],\n)\n\n\n...  # in a real use case: more tools, longer instructions\n\n\nasync def main():\n    deps = SupportDependencies(customer_id=123, db=DatabaseConn())\n    result = await support_agent.run('What is my balance?', deps=deps)\n    print(result.output)\n    \"\"\"\n    support_advice='Hello John, your current account balance, including pending transactions, is $123.45.' block_card=False risk=1\n    \"\"\"\n\n    result = await support_agent.run('I just lost my card!', deps=deps)\n    print(result.output)\n    \"\"\"\n    support_advice=\"I'm sorry to hear that, John. We are temporarily blocking your card to prevent unauthorized transactions.\" block_card=True risk=8\n    \"\"\"\n\n    result = await support_agent.run(  # the model loads `refunds` on demand, then answers\n        'Was I refunded for the duplicate charge on my last statement?', deps=deps\n    )\n    print(result.output)\n    \"\"\"\n    support_advice='Good news, John: the duplicate charge on your last statement was refunded on 2026-05-01.' block_card=False risk=1\n    \"\"\"\n```\n\nFor the annotated walkthrough and Logfire tracing, see the [same example in the docs](https://pydantic.dev/docs/ai/overview/#putting-it-together-a-bank-support-agent).\n\n## Next Steps\n\n- [Install Pydantic AI](https://pydantic.dev/docs/ai/overview/install/) and put your own coding agent to work: install the [Pydantic AI skill](https://pydantic.dev/docs/ai/overview/coding-agent-skills/), point it at the [examples](https://pydantic.dev/docs/ai/examples/setup/) and the [Harness index](https://pydantic.dev/docs/ai/harness/), and tell it what you'd like to build. No API key needed to start (there's a built-in [`'test'` model](https://pydantic.dev/docs/ai/guides/testing/#unit-testing-with-testmodel)), and the [Pydantic AI Gateway](https://pydantic.dev/docs/ai/overview/gateway/) is one key for every model when you're ready.\n- See what your agent did: [instrument it](https://pydantic.dev/docs/ai/integrations/logfire/) with one line of setup, and every model call and tool call shows up. It's standard OpenTelemetry: [Pydantic Logfire](https://pydantic.dev/logfire?utm_source=github&utm_medium=readme&utm_campaign=pydantic-ai), which has a [free tier](https://pydantic.dev/pricing/) (no credit card; sign up with just a GitHub account), is the easiest way to look, any OTLP backend works.\n- Read the [docs](https://pydantic.dev/docs/ai/core-concepts/agent/) and the [API reference](https://pydantic.dev/docs/ai/api/pydantic-ai/agent/).\n- Give your agent its batteries: [Pydantic AI Harness](https://pydantic.dev/docs/ai/harness/).\n- Join [Slack](https://logfire.pydantic.dev/docs/join-slack/) or file an issue on [GitHub](https://github.com/pydantic/pydantic-ai/issues).\n\n## Part of the Pydantic Stack\n\nEverything you need to ship production-grade AI agents:\n\n- [Pydantic AI](https://pydantic.dev/pydantic-ai?utm_source=github&utm_medium=readme&utm_campaign=pydantic-ai): the type-safe AI SDK\n- [Pydantic AI Harness](https://pydantic.dev/docs/ai/harness/): the official capability library and harness, from single capabilities to complete agents\n- [Pydantic Logfire](https://pydantic.dev/logfire?utm_source=github&utm_medium=readme&utm_campaign=pydantic-ai): AI-first, full-stack observability\n- [Pydantic AI Gateway](https://pydantic.dev/ai-gateway?utm_source=github&utm_medium=readme&utm_campaign=pydantic-ai): one key for every model, with cost monitoring and spending limits\n- [Pydantic Evals](https://pydantic.dev/docs/ai/evals/evals/): evaluate any Python function, agents included, with [production evals on Logfire](https://pydantic.dev/logfire/evals?utm_source=github&utm_medium=readme&utm_campaign=pydantic-ai)\n- [Pydantic Graph](https://pydantic.dev/docs/ai/graph/graph/): typed graph control flow\n- [genai-prices](https://github.com/pydantic/genai-prices): model pricing data, kept current\n- [Monty](https://github.com/pydantic/monty): a sandboxed Python interpreter for model-written code\n",
+          "truncated": false
+        }
+      },
+      "group": "independent-unseen-34",
+      "category": "Typed production agent SDK/harness with actual multimodal, support, analysis and durable-task examples; separate own functionality from ecosystem links.",
+      "relevance": true,
+      "disposition": "judged",
+      "positive": [
+        "form.tools",
+        "form.skills",
+        "form.extensions",
+        "form.workflows",
+        "purpose.development",
+        "purpose.office",
+        "purpose.content",
+        "purpose.research",
+        "capability.orchestration",
+        "capability.memory",
+        "capability.evaluation",
+        "capability.runtime",
+        "capability.interaction"
+      ],
+      "negative": [
+        "form.catalogs",
+        "purpose.learning"
+      ],
+      "abstain": [],
+      "boundary": [],
+      "labelEvidence": {
+        "form.tools": {
+          "verdict": "positive",
+          "readmeLines": [
+            40,
+            59,
+            71,
+            74,
+            235
+          ],
+          "reason": "The owned clai command, exported coding agent and built-in agent CLI/web interfaces establish runnable programs, independently of SDK libraries."
+        },
+        "form.skills": {
+          "verdict": "positive",
+          "readmeLines": [
+            239,
+            347
+          ],
+          "reason": "The repository documents its actual migration skills and a named Pydantic AI skill offered through official product documentation; these are reusable agent instruction/task packages, not just a blank skill format explanation."
+        },
+        "form.extensions": {
+          "verdict": "positive",
+          "readmeLines": [
+            51,
+            52,
+            53,
+            66,
+            171,
+            172,
+            173,
+            233,
+            235
+          ],
+          "reason": "Actual agent model/prompt/capability settings, reusable hooks/model settings and YAML/JSON agent specs are non-skill agent configuration. Plain general server settings are not the evidence."
+        },
+        "form.workflows": {
+          "verdict": "positive",
+          "readmeLines": [
+            26,
+            28,
+            36,
+            120,
+            122,
+            143,
+            237
+          ],
+          "reason": "The product is an owned agent SDK/loop with harness and durable agent workflow mechanisms."
+        },
+        "form.catalogs": {
+          "verdict": "negative",
+          "readmeLines": [
+            26,
+            28,
+            34,
+            225,
+            353,
+            355
+          ],
+          "reason": "The primary deliverable is an owned SDK/harness and agent interface functionality; links to docs/ecosystem components do not make it primarily a catalog."
+        },
+        "purpose.development": {
+          "verdict": "positive",
+          "readmeLines": [
+            38,
+            40,
+            71,
+            74,
+            79,
+            229,
+            239
+          ],
+          "reason": "The shipped coding agent, agent SDK/harness and migration task skills directly support software and agent development."
+        },
+        "purpose.office": {
+          "verdict": "positive",
+          "readmeLines": [
+            157,
+            172,
+            177,
+            178,
+            243,
+            245,
+            305,
+            310,
+            311,
+            322,
+            334
+          ],
+          "reason": "The actual voice order-status and bank support examples document customer support and account/refund assistance, not an inferred generic possibility."
+        },
+        "purpose.content": {
+          "verdict": "positive",
+          "readmeLines": [
+            192,
+            194,
+            203,
+            205,
+            206,
+            207,
+            210
+          ],
+          "reason": "The owned image-generation API and explicit coffee-shop logo example support creative visual-design/media purposes."
+        },
+        "purpose.research": {
+          "verdict": "positive",
+          "readmeLines": [
+            81,
+            97,
+            98,
+            99,
+            102,
+            111,
+            113,
+            135,
+            137,
+            138,
+            139,
+            143,
+            149
+          ],
+          "reason": "The actual sentiment-analysis output and owned researcher/durable research-brief workflow explicitly support analysis and research."
+        },
+        "purpose.learning": {
+          "verdict": "negative",
+          "readmeLines": [
+            28,
+            32,
+            40,
+            245,
+            269,
+            292,
+            343,
+            345,
+            347,
+            349
+          ],
+          "reason": "Harness context/persistence is not itself a reusable user-knowledge management feature. The bank customer-context/refund example supports a business task, while annotated walkthrough/product docs alone do not independently describe human educational or study materials."
+        },
+        "capability.orchestration": {
+          "verdict": "positive",
+          "readmeLines": [
+            28,
+            36,
+            122,
+            139,
+            143,
+            147,
+            149,
+            237
+          ],
+          "reason": "Owned durable adapters turn model/tool calls into recoverable activities, with sub-agent and human-approval mechanisms controlling continued execution."
+        },
+        "capability.memory": {
+          "verdict": "positive",
+          "readmeLines": [
+            28,
+            40,
+            54,
+            66,
+            67,
+            233
+          ],
+          "reason": "Owned memory/context management/compaction/persistence and the coding harness context controls explicitly manage agent context; this is not inferred from external data-store links."
+        },
+        "capability.evaluation": {
+          "verdict": "positive",
+          "readmeLines": [
+            26,
+            188,
+            214,
+            216,
+            222,
+            231,
+            348
+          ],
+          "reason": "Owned agent instrumentation exposes model/tool calls and traces through any OTel backend; agent-behavior evaluation is explicitly described. The tracing backend may be external."
+        },
+        "capability.runtime": {
+          "verdict": "positive",
+          "readmeLines": [
+            26,
+            40,
+            52,
+            56,
+            171,
+            181,
+            227,
+            233,
+            235
+          ],
+          "reason": "Owned agent model/provider selection, allowlisted shell/capability controls, inference model settings and runtime interfaces establish agent model/runtime management."
+        },
+        "capability.interaction": {
+          "verdict": "positive",
+          "readmeLines": [
+            26,
+            157,
+            159,
+            169,
+            173,
+            181,
+            182,
+            183,
+            188,
+            235
+          ],
+          "reason": "Owned realtime voice, web chat, UI streams, editor interface and MCP integration connect agents to users/applications; they are not ordinary host installation steps."
+        }
+      },
+      "relevanceReason": "The actual supplied text explicitly documents owned agent functionality/infrastructure, not theoretical generic utility use. Maintenance, experimental or educational status does not remove owned agent delivery.",
+      "reason": "Independent full single-README/name/description/topics annotation before any Jev call for this exact repository. Frozen32 label meanings used; no expected probabilities, no model-derived gold and no prompt advice. Boundaries allow semantic uncertainty and are not required-abstention predictions.",
+      "expectedAppliedLabels": null
+    }
+  ],
+  "ruleVersion": "atlas-34",
+  "snapshotPreparedAt": "2026-10-16T03:59:29.771489+00:00"
+}

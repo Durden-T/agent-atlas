@@ -1,0 +1,43 @@
+{
+  "id": "a4d5bd74-b9fb-4046-8db4-2304b2df78c3",
+  "command": {
+    "kind": "collect",
+    "settings": {
+      "minStars": 100,
+      "updatedWithinDays": 180,
+      "refreshIntervalDays": -1,
+      "judgmentLimit": 1,
+      "discoveryRequestLimit": 1
+    }
+  },
+  "status": "partial",
+  "stage": "已结束",
+  "startedAt": "2026-10-14T09:44:43.804Z",
+  "endedAt": "2026-10-14T09:44:50.419Z",
+  "stats": {
+    "discovered": 100,
+    "updated": 0,
+    "thresholdFiltered": 0,
+    "noReadme": 0,
+    "skipped": 0,
+    "cached": 0,
+    "judged": 1,
+    "review": 0,
+    "unrelated": 1,
+    "failed": 1,
+    "requests": 1,
+    "unknownRequests": 0,
+    "pending": 98,
+    "inputTokens": 17701,
+    "outputTokens": 769,
+    "cost": 0.000743442
+  },
+  "errors": [
+    "public-apis/public-apis：README 超过读取上限"
+  ],
+  "gaps": [
+    "24 个发现分页或分段待下次继续（已使用 1 个请求）",
+    "本轮仓库读取上限已达到，剩余候选保留待处理",
+    "本轮 Jev 上限已达到，剩余仓库保留待判断"
+  ]
+}

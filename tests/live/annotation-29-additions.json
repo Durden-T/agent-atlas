@@ -1,0 +1,52 @@
+{
+  "preparedAt": "2026-10-15T13:42:51.934Z",
+  "annotatedBeforeCalls": true,
+  "sourceRuleVersion": "atlas-28",
+  "targetRuleVersion": "atlas-29",
+  "kind": "independent-documentary-addition",
+  "changes": [
+    {
+      "name": "anthropics/skills",
+      "label": "capability.interaction",
+      "from": "unscored",
+      "to": "negative",
+      "sha": "eb54ee8b92f2d40b4b26569be0772be3c1e23156",
+      "hash": "90c3bf4fee63791e236f41ac36a056cd0b8f75bbc05c176785c11c3c47cbc975",
+      "readmeLines": [
+        16,
+        20,
+        34,
+        36,
+        45,
+        51,
+        59,
+        61,
+        94,
+        96
+      ],
+      "evidence": "The exact97-line README documents owned task skills and their installation/loading/invocation through an external agent host/API. It does not describe owned voice/remote/notifications/UI enhancement or an external application connector. The only specific Notion skills are external links; MCP server generation is a task output, not an already delivered connection.",
+      "reviewer": "atlas_current_general_review"
+    },
+    {
+      "name": "mindfold-ai/Trellis",
+      "label": "capability.interaction",
+      "from": "unscored",
+      "to": "negative",
+      "sha": "caa0d13ddfdd99c69893c750cacb259844f7a7fe",
+      "hash": "d4e2e24d63311b9b7c2d9b93afa85500b42902940ffa2ee600a2f770b2a38899",
+      "readmeLines": [
+        16,
+        19,
+        43,
+        45,
+        47,
+        58,
+        65,
+        74,
+        82
+      ],
+      "evidence": "The exact169-line README documents an owned installer/config generator for22 compatible agent hosts and ordinary hosted task conversations/workflows/context. Host compatibility and task/rule installation alone are runtime/configuration functionality, not an owned interface enhancement or explicit external application/API connection; external Docs/DeepWiki/ChatGPT links are not owned components.",
+      "reviewer": "atlas_current_general_review"
+    }
+  ]
+}

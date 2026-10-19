@@ -1,0 +1,29 @@
+{
+  "preparedAt": "2026-10-15T12:40:33.368Z",
+  "annotatedBeforeCalls": true,
+  "sourceRuleVersion": "atlas-24",
+  "targetRuleVersion": "atlas-26",
+  "kind": "independent-documentary-addition",
+  "changes": [
+    {
+      "name": "mem0ai/mem0",
+      "label": "purpose.learning",
+      "from": "unscored",
+      "to": "positive",
+      "sha": "9a81e74effacbd7433e91b6c1fcc907f110d4773",
+      "hash": "3a71182f1e1a9006a03fcca6b8e7907b5d54882a294ae01275847f2b8a57fdc5",
+      "evidence": "README57-61 actual fact extraction, cross-memory entity linking and semantic/keyword/entity search; README160-167 owned CLI manages user facts. This is actual knowledge organization independent of a teaching use.",
+      "reviewer": "atlas_current_general_review"
+    },
+    {
+      "name": "rpamis/comet",
+      "label": "purpose.learning",
+      "from": "unscored",
+      "to": "positive",
+      "sha": "4aa2094b956e7766492d1ebfa8a4a184eb8e682b",
+      "hash": "42310d360662db2773dbbcb392e0c5d2ee560d505bd9d0210bde4932ddb8f06e",
+      "evidence": "README96-102 actual personal-memory/project-knowledge management, inspect/correct/forget/pause and Dashboard;259 knowledge-file inclusion. This is actual knowledge organization independent of a teaching use.",
+      "reviewer": "atlas_current_general_review"
+    }
+  ]
+}

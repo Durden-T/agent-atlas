@@ -1,0 +1,61 @@
+{
+  "preparedAt": "2026-10-15T07:53:14.711353Z",
+  "source": "Explicit user clarification: only evaluate the agent itself and its execution; exclude ordinary website, code-review and accessibility task-outcome checks.",
+  "changes": [
+    {
+      "name": "anthropics/skills",
+      "hash": "90c3bf4fee63791e236f41ac36a056cd0b8f75bbc05c176785c11c3c47cbc975",
+      "sha": "eb54ee8b92f2d40b4b26569be0772be3c1e23156",
+      "label": "capability.evaluation",
+      "previous": "positive",
+      "current": "negative",
+      "reason": "README documents testing web apps and advises users to test skills; no owned mechanism measures an agent or agent execution. User explicitly excludes ordinary task-outcome testing."
+    },
+    {
+      "name": "vercel-labs/agent-browser",
+      "hash": "fc0678e6c00d08b92abbe1e48b57ae4bb74c8df23dea1e13a14f34896b798787",
+      "sha": "9ca15649d0dc9d263b9afb6b9a8df30520c3a428",
+      "label": "capability.evaluation",
+      "previous": "positive",
+      "current": "boundary",
+      "reason": "Documented page/visual/a11y checks and Chrome/browser traces do not clearly establish observation of agent execution; generic trace wording is a boundary, no longer a forced positive."
+    },
+    {
+      "name": "mem0ai/mem0",
+      "hash": "3a71182f1e1a9006a03fcca6b8e7907b5d54882a294ae01275847f2b8a57fdc5",
+      "sha": "9a81e74effacbd7433e91b6c1fcc907f110d4773",
+      "label": "capability.evaluation",
+      "previous": "positive",
+      "current": "boundary",
+      "reason": "Owned mem0-test-integration validates memory SDK integration; README does not establish that it measures agent behavior or execution. Product benchmark numbers and another linked benchmarks repository do not establish owned agent evaluation. Boundary under new user scope."
+    },
+    {
+      "name": "mindfold-ai/Trellis",
+      "hash": "d4e2e24d63311b9b7c2d9b93afa85500b42902940ffa2ee600a2f770b2a38899",
+      "sha": "caa0d13ddfdd99c69893c750cacb259844f7a7fe",
+      "label": "capability.evaluation",
+      "previous": "positive",
+      "current": "negative",
+      "reason": "README code/diff/spec checks, lint, type checks and tests validate task artifacts, not the agent itself or its execution; task journals are project memory rather than evaluation. User explicitly excludes code-review/outcome testing."
+    },
+    {
+      "name": "K-Dense-AI/scientific-agent-skills",
+      "hash": "835eca786631e505798278126f455d416d5bcf4337c7517d3fa15dabf0167c3d",
+      "sha": "3fcebf5c0e49e39dc87e5b577d0368d313124862",
+      "label": "capability.evaluation",
+      "previous": "unscored",
+      "current": "negative",
+      "reason": "Bundled scientific-script tests, reviewed examples and repository CI do not establish measurement of agent behavior or observation of agent execution. New independently annotated negative under the user boundary; evaluation was not a scored key in the old gold."
+    },
+    {
+      "name": "wshobson/agents",
+      "hash": "54b4d5c31a57e87df0b9d3ac8075958341f13a3cdcddbb6d3ef817ef03f2f08c",
+      "sha": "beaf69d7beba13c2d1ebcb35f3b8a1289378c9db",
+      "label": "capability.evaluation",
+      "previous": "unscored",
+      "current": "boundary",
+      "reason": "Owned plugin-eval includes static skill checks and optional LLM/Monte Carlo modes, but the supplied README does not establish whether those modes measure agent execution or only skill/document quality. New boundary annotation under user scope; evaluation was not a scored key in the old gold."
+    }
+  ],
+  "originalsPreserved": true
+}

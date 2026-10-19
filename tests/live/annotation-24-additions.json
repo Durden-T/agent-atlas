@@ -1,0 +1,19 @@
+{
+  "preparedAt": "2026-10-15T11:50:59.012554Z",
+  "annotatedBeforeCalls": true,
+  "sourceRuleVersion": "atlas-23",
+  "targetRuleVersion": "atlas-24",
+  "kind": "independent-documentary-addition",
+  "changes": [
+    {
+      "name": "K-Dense-AI/scientific-agent-skills",
+      "label": "form.tools",
+      "from": "boundary",
+      "to": "positive",
+      "sha": "3fcebf5c0e49e39dc87e5b577d0368d313124862",
+      "hash": "835eca786631e505798278126f455d416d5bcf4337c7517d3fa15dabf0167c3d",
+      "evidence": "README89 documents bundled executable helpers/scripts with owned tests; README93 specifically names the owned Scientific Slides skill and its own rendering/validation scripts. Bundled executable utilities used by an agent skill satisfy the existing shipped-program criterion; a standalone CLI/agent execution engine is not required. Original source23 boundary and raw negative result retained.",
+      "reviewer": "atlas_current_general_review"
+    }
+  ]
+}

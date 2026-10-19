@@ -1,0 +1,78 @@
+{
+  "preparedAt": "2026-10-15T08:41:43.403089Z",
+  "originalsPreserved": true,
+  "changes": [
+    {
+      "name": "mindfold-ai/Trellis",
+      "label": "purpose.research",
+      "previous": "unscored",
+      "current": "positive",
+      "sha": "caa0d13ddfdd99c69893c750cacb259844f7a7fe",
+      "hash": "d4e2e24d63311b9b7c2d9b93afa85500b42902940ffa2ee600a2f770b2a38899",
+      "reason": "README documents its trellis-research sub-agent investigating research-heavy items and writing research files; technical investigation is already within the research purpose. Independently reviewed before atlas18 calls."
+    },
+    {
+      "name": "yanliudesign/offer-toolkit-skill",
+      "label": "purpose.research",
+      "previous": "unscored",
+      "current": "positive",
+      "sha": "408e0b3f71763ff938905b0f065cc8ec063228dc",
+      "hash": "b86e20245fef82e47a35b34bfc80f60ceb9b172021580685c385bcacae4b27b4",
+      "reason": "Previously frozen direct16 annotation: JD factual analysis, evidence/risk analysis and total-compensation comparison are explicit analysis tasks. This does not establish an agent memory/retrieval component."
+    },
+    {
+      "name": "microsoft/agent-lightning",
+      "label": "capability.interaction",
+      "previous": "unscored",
+      "current": "positive",
+      "sha": "19c3c7ea416050772baeb4dffdf04293469360e7",
+      "hash": "a56ef0e21b512d5a476b50516e583b360284f009a851eca8d0a2556ef0be6e7f",
+      "reason": "README official owned examples document AutoGen plus MCP calculator tools and computer/code-execution tool examples. Optional executable integration examples qualify under the existing interaction definition."
+    },
+    {
+      "name": "vercel-labs/agent-browser",
+      "label": "form.extensions",
+      "previous": "unscored",
+      "current": "positive",
+      "sha": "9ca15649d0dc9d263b9afb6b9a8df30520c3a428",
+      "hash": "fc0678e6c00d08b92abbe1e48b57ae4bb74c8df23dea1e13a14f34896b798787",
+      "reason": "README625-648 contains actual owned MCP client launch configurations; these are agent-specific launch settings, not generic server settings."
+    },
+    {
+      "name": "vercel-labs/agent-browser",
+      "label": "capability.memory",
+      "previous": "unscored",
+      "current": "positive",
+      "sha": "9ca15649d0dc9d263b9afb6b9a8df30520c3a428",
+      "hash": "fc0678e6c00d08b92abbe1e48b57ae4bb74c8df23dea1e13a14f34896b798787",
+      "reason": "README206-221 documents dedicated agent-friendly document retrieval, llms.txt links and topic filtering. This is an owned reusable knowledge-source retrieval interface."
+    },
+    {
+      "name": "vercel-labs/agent-browser",
+      "label": "purpose.research",
+      "previous": "unscored",
+      "current": "positive",
+      "sha": "9ca15649d0dc9d263b9afb6b9a8df30520c3a428",
+      "hash": "fc0678e6c00d08b92abbe1e48b57ae4bb74c8df23dea1e13a14f34896b798787",
+      "reason": "Owned browser network, console and profiling/debugging functions support investigation; independently fixed in the direct16 development gold before those calls."
+    },
+    {
+      "name": "github/gh-aw",
+      "label": "capability.evaluation",
+      "previous": "positive",
+      "current": "negative",
+      "sha": "b21efc254cd80728418b238f1aa27c39d108c5da",
+      "hash": "75a341ba29c5e806d430734d55e0be5e21ea6932908bf3eb93a2c6face92af29",
+      "reason": "User narrowed evaluation to the agent itself and execution. Independent pre-call reread of the exact sent README prefix found workflow compilation, static checks, sandbox/permissions and task artifact review, without an owned agent benchmark or execution-observation mechanism. No model output has been requested for this held-out fixture."
+    },
+    {
+      "name": "vercel-labs/agent-browser",
+      "label": "purpose.office",
+      "previous": "boundary",
+      "current": "positive",
+      "sha": "9ca15649d0dc9d263b9afb6b9a8df30520c3a428",
+      "hash": "fc0678e6c00d08b92abbe1e48b57ae4bb74c8df23dea1e13a14f34896b798787",
+      "reason": "Independent whole-output review before atlas18 calls: README516-544 documents owned axe accessibility audits, an explicit office/accessibility user task. The user excludes task-output a11y checks only from agent evaluation, not office."
+    }
+  ]
+}

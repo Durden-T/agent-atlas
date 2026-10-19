@@ -1,0 +1,161 @@
+{
+  "preparedAt": "2026-10-15T09:52:20.459815Z",
+  "originalsPreserved": true,
+  "heldOutModelCalls": 0,
+  "userDecision": "Coding-workflow PRDs, technical specifications and implementation plans are development/office, not content.",
+  "changes": [
+    {
+      "name": "mindfold-ai/Trellis",
+      "label": "purpose.content",
+      "previous": "unscored",
+      "current": "negative",
+      "sha": "caa0d13ddfdd99c69893c750cacb259844f7a7fe",
+      "hash": "d4e2e24d63311b9b7c2d9b93afa85500b42902940ffa2ee600a2f770b2a38899",
+      "reason": "README82/123 generates coding PRDs/specifications; excluded by the explicit user decision."
+    },
+    {
+      "name": "NahumLitvin/prismantis",
+      "label": "purpose.content",
+      "previous": "unscored",
+      "current": "positive",
+      "sha": "9f8a82e38d7aec651e25e015ace9d4fbfb23872f",
+      "hash": "3e58130d9a99e8e11432c04aa06edfd1edbbf1445489715b9f2b621ed8ede1b7",
+      "reason": "README64-68/156 owned UI visual themes and graphics."
+    },
+    {
+      "name": "anthropics/skills",
+      "label": "purpose.content",
+      "previous": "unscored",
+      "current": "positive",
+      "sha": "eb54ee8b92f2d40b4b26569be0772be3c1e23156",
+      "hash": "90c3bf4fee63791e236f41ac36a056cd0b8f75bbc05c176785c11c3c47cbc975",
+      "reason": "README16 actual supplied art, music and design skills."
+    },
+    {
+      "name": "travisvn/awesome-claude-skills",
+      "label": "purpose.content",
+      "previous": "unscored",
+      "current": "positive",
+      "sha": "63064b36d5153e1342590651d1e7f62093450040",
+      "hash": "2e3b1e0d875ebfa44e555804b65bdbe152b449282e544239bb1e0e4d2b429b05",
+      "reason": "README73/78/124 actual art, UI and web-asset content."
+    },
+    {
+      "name": "microsoft/markitdown",
+      "label": "purpose.content",
+      "previous": "unscored",
+      "current": "negative",
+      "sha": "fa33f6b343cf54de037cfdb82337cc70d5fbc47b",
+      "hash": "50e02bb4e79b138a68e3ce05bfa1862281d9d7b5b5cefd5c38618b911319194f",
+      "reason": "Document conversion and preparation for analysis do not alone establish content creation."
+    },
+    {
+      "name": "wshobson/agents",
+      "label": "purpose.content",
+      "previous": "unscored",
+      "current": "negative",
+      "sha": "beaf69d7beba13c2d1ebcb35f3b8a1289378c9db",
+      "hash": "54b4d5c31a57e87df0b9d3ac8075958341f13a3cdcddbb6d3ef817ef03f2f08c",
+      "reason": "Coding agents and technical deliverables; no documented qualifying content task."
+    },
+    {
+      "name": "yanliudesign/offer-toolkit-skill",
+      "label": "purpose.content",
+      "previous": "unscored",
+      "current": "positive",
+      "sha": "408e0b3f71763ff938905b0f065cc8ec063228dc",
+      "hash": "b86e20245fef82e47a35b34bfc80f60ceb9b172021580685c385bcacae4b27b4",
+      "reason": "README43-44 resume visual layout and story writing."
+    },
+    {
+      "name": "VoltAgent/awesome-agent-skills",
+      "label": "purpose.content",
+      "previous": "unscored",
+      "current": "positive",
+      "sha": "3df05e4260dfc77dab5c29f54e71ab14f353fa15",
+      "hash": "9144a905db2be78f00b5e06e3d5c20110d1e0df5b5c3c7a44139aafec6c89fc9",
+      "reason": "README117-118/408 actual art, UI and social-media content."
+    },
+    {
+      "name": "microsoft/agent-lightning",
+      "label": "purpose.content",
+      "previous": "unscored",
+      "current": "negative",
+      "sha": "19c3c7ea416050772baeb4dffdf04293469360e7",
+      "hash": "a56ef0e21b512d5a476b50516e583b360284f009a851eca8d0a2556ef0be6e7f",
+      "reason": "README15/25/78-84 covers agent training, math, science, retrieval and computer/code examples. Its own technical articles/figures do not establish a user content-authoring task."
+    },
+    {
+      "name": "HKUDS/ClawWork",
+      "label": "purpose.content",
+      "previous": "unscored",
+      "current": "positive",
+      "sha": "b9742d265cefd1c014a623434b6dad555bbe37c0",
+      "hash": "7580c500847b21d429cfeeeff0e66a5da12ce5882f5cd35758b668977fde4b88",
+      "reason": "README382 owned create_video tool."
+    },
+    {
+      "name": "ComposioHQ/awesome-claude-skills",
+      "label": "purpose.content",
+      "previous": "unscored",
+      "current": "positive",
+      "sha": "d28b9c3515147fba1242461eb2c11155ffca5bbf",
+      "hash": "aeddee9aeb121d0bf379f7cd756a8e074143e06cb4d35cd70afaf814aea5c586",
+      "reason": "README123 customer release notes and318 Canva content integration."
+    },
+    {
+      "name": "deanpeters/Product-Manager-Skills",
+      "label": "purpose.content",
+      "previous": "unscored",
+      "current": "positive",
+      "sha": "4ab083c7aa092e0a6dbc33092c84be1d25a1511d",
+      "hash": "5b25a024da47e3ea1b374c1c515ad4741c2d1d84f219aee7415af5fa3cd6ef25",
+      "reason": "README67 press-release authoring, independently of PRDs/user stories."
+    },
+    {
+      "name": "vercel-labs/agent-browser",
+      "label": "purpose.content",
+      "previous": "unscored",
+      "current": "negative",
+      "sha": "9ca15649d0dc9d263b9afb6b9a8df30520c3a428",
+      "hash": "fc0678e6c00d08b92abbe1e48b57ae4bb74c8df23dea1e13a14f34896b798787",
+      "reason": "Browser interaction and inspection do not alone establish user writing/design/media tasks."
+    },
+    {
+      "name": "mem0ai/mem0",
+      "label": "purpose.content",
+      "previous": "unscored",
+      "current": "negative",
+      "sha": "9a81e74effacbd7433e91b6c1fcc907f110d4773",
+      "hash": "3a71182f1e1a9006a03fcca6b8e7907b5d54882a294ae01275847f2b8a57fdc5",
+      "reason": "Agent memory infrastructure; no documented user creative/communication/business content task."
+    },
+    {
+      "name": "musistudio/claude-code-router",
+      "label": "purpose.content",
+      "previous": "unscored",
+      "current": "negative",
+      "sha": "c8b6cdc4f3e34665bb99cee513b232c71f722cb1",
+      "hash": "29d26c0dfa1417578419edda0023f0c21330e50e4958894b2a58cc718e4682f1",
+      "reason": "Model routing and communication relay do not alone establish content authoring."
+    },
+    {
+      "name": "obra/superpowers",
+      "label": "purpose.content",
+      "previous": "boundary",
+      "current": "negative",
+      "sha": "e40ddfa8f87a374e1b9a3663b80c1aa954cf8eec",
+      "hash": "75b6ca69c73e967ca498210103b479c013f47eab22135b719f3d9a7f6c558bda",
+      "reason": "README310/314 technical design and implementation plans are excluded by the explicit user decision."
+    },
+    {
+      "name": "github/gh-aw",
+      "label": "purpose.content",
+      "previous": "boundary",
+      "current": "negative",
+      "sha": "b21efc254cd80728418b238f1aa27c39d108c5da",
+      "hash": "75a341ba29c5e806d430734d55e0be5e21ea6932908bf3eb93a2c6face92af29",
+      "reason": "README18 repository/technical documentation maintenance is excluded by the explicit user decision."
+    }
+  ]
+}

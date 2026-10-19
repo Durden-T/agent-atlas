@@ -1,0 +1,88 @@
+{
+  "preparedAt": "2026-10-15T09:13:57.329704Z",
+  "originalsPreserved": true,
+  "heldOutModelCalls": 0,
+  "changes": [
+    {
+      "name": "anthropics/skills",
+      "label": "purpose.research",
+      "previous": "unscored",
+      "current": "negative",
+      "sha": "eb54ee8b92f2d40b4b26569be0772be3c1e23156",
+      "hash": "90c3bf4fee63791e236f41ac36a056cd0b8f75bbc05c176785c11c3c47cbc975",
+      "reason": "README6 describes the skill format in general. Actual component uses at16/20 do not document analysis/research/investigation. Current shared rule excludes generic format potentials; independently found in the full source18 review and fixed before the subsequent concrete/research statement controls."
+    },
+    {
+      "name": "yanliudesign/offer-toolkit-skill",
+      "label": "capability.interaction",
+      "previous": "unscored",
+      "current": "positive",
+      "sha": "408e0b3f71763ff938905b0f065cc8ec063228dc",
+      "hash": "b86e20245fef82e47a35b34bfc80f60ceb9b172021580685c385bcacae4b27b4",
+      "reason": "README43 explicitly says the supplied resume skill pulls a resume from LinkedIn, an application integration. This does not make its business search/import an agent memory mechanism. Independently verified in the whole-output review before source19 calls."
+    },
+    {
+      "name": "firecrawl/firecrawl",
+      "label": "form.extensions",
+      "previous": "unscored",
+      "current": "positive",
+      "sha": "d8b347521b7a899c2983fae3ff56634ed5ae165f",
+      "hash": "fc89f274f9379986659833e2cc5778b7e6189ff7d3d8a86fa2e1cc7d4c790e8f",
+      "reason": "README284-300 provides complete MCP client launch settings inline. A server in another repository does not negate delivery of that client configuration; independently verified under the existing configuration meaning before the concrete16 control."
+    },
+    {
+      "name": "ComposioHQ/awesome-claude-skills",
+      "label": "form.tools",
+      "previous": "abstain",
+      "current": "negative",
+      "sha": "d28b9c3515147fba1242461eb2c11155ffca5bbf",
+      "hash": "aeddee9aeb121d0bf379f7cd756a8e074143e06cb4d35cd70afaf814aea5c586",
+      "reason": "The predicate asks whether this README documents an owned runnable program. Local skills/plugin and external Claude host calls do not establish an owned CLI/client/server. Unseen implementation is unknown, but that does not force uncertainty about the documentary predicate; independently challenged before source19 validation."
+    },
+    {
+      "name": "obra/superpowers",
+      "label": "purpose.research",
+      "previous": "negative",
+      "current": "positive",
+      "sha": "e40ddfa8f87a374e1b9a3663b80c1aa954cf8eec",
+      "hash": "75b6ca69c73e967ca498210103b479c013f47eab22135b719f3d9a7f6c558bda",
+      "reason": "Independent pre-call reread under the already-frozen research definition: README328-330 owns agent-session diagnosis and348 a four-phase root-cause investigation process."
+    },
+    {
+      "name": "obra/superpowers",
+      "label": "purpose.office",
+      "previous": "negative",
+      "current": "positive",
+      "sha": "e40ddfa8f87a374e1b9a3663b80c1aa954cf8eec",
+      "hash": "75b6ca69c73e967ca498210103b479c013f47eab22135b719f3d9a7f6c558bda",
+      "reason": "Independent pre-call reread under the already-frozen office definition: README310 supplies a written design document and314 a detailed implementation plan for the user. Document creation qualifies alongside development use."
+    },
+    {
+      "name": "github/gh-aw",
+      "label": "purpose.research",
+      "previous": "boundary",
+      "current": "positive",
+      "sha": "b21efc254cd80728418b238f1aa27c39d108c5da",
+      "hash": "75a341ba29c5e806d430734d55e0be5e21ea6932908bf3eb93a2c6face92af29",
+      "reason": "Independent pre-call reread: README18 explicitly supplies CI-failure investigation and dependency analysis as user tasks."
+    },
+    {
+      "name": "github/gh-aw",
+      "label": "purpose.office",
+      "previous": "boundary",
+      "current": "positive",
+      "sha": "b21efc254cd80728418b238f1aa27c39d108c5da",
+      "hash": "75a341ba29c5e806d430734d55e0be5e21ea6932908bf3eb93a2c6face92af29",
+      "reason": "Independent pre-call reread: README18 explicitly supplies documentation maintenance and repository reporting."
+    },
+    {
+      "name": "github/gh-aw",
+      "label": "form.skills",
+      "previous": "negative",
+      "current": "boundary",
+      "sha": "b21efc254cd80728418b238f1aa27c39d108c5da",
+      "hash": "75a341ba29c5e806d430734d55e0be5e21ea6932908bf3eb93a2c6face92af29",
+      "reason": "Independent pre-call reread: README9-12 provides own task prompt links and67 an agent prompt index/full corpus. They may be product guidance rather than reusable task-skill packages, so an absolute no-owned-instruction-package claim is unsupported. No held-out model response has been requested or seen."
+    }
+  ]
+}

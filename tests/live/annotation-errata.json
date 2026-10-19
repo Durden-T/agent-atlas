@@ -1,0 +1,16 @@
+[
+  {
+    "recordedAt": "2026-10-14T13:15:01.155Z",
+    "repository": "wshobson/agents",
+    "sourceGold": "tests/live/gold-3.json",
+    "sha": "beaf69d7beba13c2d1ebcb35f3b8a1289378c9db",
+    "hash": "54b4d5c31a57e87df0b9d3ac8075958341f13a3cdcddbb6d3ef817ef03f2f08c",
+    "label": "form.tools",
+    "previous": "negative",
+    "corrected": "positive",
+    "reason": "The exact transmitted README documents a repository-owned plugin-eval CLI for static agent skill quality checks. This meets the approved runnable agent tool definition. The earlier assertion that no runnable application was claimed was wrong.",
+    "evidence": "uv run --project plugins/plugin-eval plugin-eval score plugins/python-development/skills/python-testing-patterns --depth quick",
+    "appliesFrom": "atlas-4",
+    "priorFilesPreserved": true
+  }
+]

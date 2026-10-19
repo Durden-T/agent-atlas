@@ -1,0 +1,44 @@
+{
+  "preparedAt": "2026-10-14T15:51:08.322Z",
+  "purpose": "Additional independently reviewed clear labels, prospectively fixed before either fixture is attempted in native-predicate diagnostic2. Do not change original diagnostic gold/receipts. Adds two scored keys only, no extra calls, no waiver of old expectations.",
+  "progressAtAnnotation": [
+    {
+      "name": "rpamis/comet",
+      "state": "complete"
+    },
+    {
+      "name": "loopx-project/loopx",
+      "state": "complete"
+    },
+    {
+      "name": "mindfold-ai/Trellis",
+      "state": "complete"
+    },
+    {
+      "name": "NahumLitvin/prismantis",
+      "state": "complete"
+    },
+    {
+      "name": "anthropics/skills",
+      "state": "prepared"
+    }
+  ],
+  "additions": [
+    {
+      "name": "VoltAgent/awesome-agent-skills",
+      "positive": [
+        "purpose.research"
+      ],
+      "reason": "Same supplied prefix curates chdb pandas replacement and SQL querying files/databases/cloud storage, ML workflows and dataset viewing. Actual curated content establishes data/research purpose.",
+      "hash": "9144a905db2be78f00b5e06e3d5c20110d1e0df5b5c3c7a44139aafec6c89fc9"
+    },
+    {
+      "name": "firecrawl/firecrawl",
+      "positive": [
+        "capability.memory"
+      ],
+      "reason": "Same supplied original README documents owned agent-facing web search, full-content retrieval/access to knowledge sources and autonomous data gathering. Current memory/retrieval definition includes retrieval, not only durable memory.",
+      "hash": "fc89f274f9379986659833e2cc5778b7e6189ff7d3d8a86fa2e1cc7d4c790e8f"
+    }
+  ]
+}

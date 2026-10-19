@@ -1,0 +1,19 @@
+{
+  "preparedAt": "2026-10-15T10:49:11.945762Z",
+  "annotatedBeforeCalls": true,
+  "sourceRuleVersion": "atlas-22",
+  "targetRuleVersion": "atlas-23",
+  "kind": "independent-documentary-addition",
+  "changes": [
+    {
+      "name": "obra/superpowers",
+      "label": "form.tools",
+      "from": "boundary",
+      "to": "positive",
+      "sha": "e40ddfa8f87a374e1b9a3663b80c1aa954cf8eec",
+      "hash": "75b6ca69c73e967ca498210103b479c013f47eab22135b719f3d9a7f6c558bda",
+      "evidence": "Independent reviewer: README386 documents owned executable plugin-infrastructure tests in tests/, run using relevant run-*.sh or npm test. Existing tools criterion explicitly includes optional executables testing agent components, without requiring a standalone product CLI. External evaluation links are not the basis. Original gold22 unchanged. No fresh model calls have been made and this annotation is not used to optimize the prompt.",
+      "reviewer": "atlas_current_general_review"
+    }
+  ]
+}

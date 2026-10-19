@@ -1,0 +1,45 @@
+[tasks.install]
+description = "安装锁定的 npm 依赖"
+run = "npm ci"
+
+[tasks.dev]
+description = "构建界面并启动开发服务"
+run = "npm run dev"
+
+[tasks.build]
+description = "构建生产版本"
+run = "npm run build"
+
+[tasks.start]
+description = "构建并启动本机应用"
+depends = ["build"]
+run = "npm start"
+
+[tasks.check]
+description = "检查 TypeScript 类型"
+run = "npm run check"
+
+[tasks.test]
+description = "运行自动测试和覆盖率检查"
+run = "npm test"
+
+[tasks.format]
+description = "格式化源码和配置"
+run = "npm run format"
+
+[tasks."format:check"]
+description = "检查源码和配置格式"
+run = "npm run format:check"
+
+[tasks."test:browser"]
+description = "运行使用受控上游的浏览器回归"
+run = "npm run test:browser"
+
+[tasks."test:live"]
+description = "真实 GitHub/Jev 端到端测试；须传 --run，会产生费用，累计最多100次"
+depends = ["build"]
+run = "node scripts/live-e2e.ts"
+
+[tasks.verify]
+description = "运行类型、测试、格式及生产构建检查"
+depends = ["check", "test", "format:check", "build"]

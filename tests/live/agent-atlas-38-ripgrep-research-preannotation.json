@@ -1,0 +1,62 @@
+{
+  "preparedAt": "2026-10-16T05:19:23.773Z",
+  "baseRuleVersion": "atlas-37",
+  "name": "BurntSushi/ripgrep",
+  "label": "purpose.research",
+  "verdict": "negative",
+  "priorAnnotation": "unfixed",
+  "changeKind": "prospective addition of an unscored negative; not a correction of a boundary entry in gold-37-final",
+  "reason": "The supplied product is a regex/file/code-search tool. Code filtering is a software-development use, but no actual user text/data-analysis, research, investigation, debugging/root-cause/security investigation or information/data-visualization task is attributed to its deliverable. Its statistics, source-corpus comparisons, algorithm discussion and linked detailed benchmark analysis describe its own speed/implementation. The definition explicitly excludes the product own benchmark/research material. General pattern-search utility or potential preparation for an unstated analytical task is insufficient.",
+  "strongestCounterargument": "Source-code search can be used during debugging or investigation, and the search tool can select text for later analysis. However, this README does not describe that task purpose; generic possible downstream use does not satisfy explicit attribution. The owned benchmarking and comparative blog cannot establish a user analysis purpose under the express exclusion.",
+  "source": {
+    "path": "tests/live/gold-37-final.json",
+    "fileSha256": "9221907fd45d5b94f41bae56d95b0d03547005d64e09c33c152cb1e1f80906b1",
+    "repositorySha": "54a7158a564faae22988da41efb1ef279e06fe5e",
+    "evidenceHash": "6b871b032109b1c99b387c5bb0e4dc624d3b434adaebe2536d5c587957307ece",
+    "readAt": "2026-10-14T11:24:35.108Z",
+    "readmePath": "README.md",
+    "readmeTruncated": false
+  },
+  "definition": {
+    "positive": "The actual product, supplied skills or actual curated content explicitly support at least one user task: analysis, research, investigation, or information/data visualization. These are alternatives; visualization does not require a research task. Support may be direct or prepare inputs for the task. Text/data analysis, technical/scientific research, debugging and root-cause/security investigation qualify. A built-in research or investigation agent/skill used during development qualifies.",
+    "negative": "No such use is attributed to the actual product, supplied skills or curated entries. Introductory examples of what agents or skill formats can do in general, this product's own research paper or benchmark results, and document/spreadsheet handling without a stated analysis, research, investigation or information/data visualization use do not establish this purpose. Artistic design or visual styling alone is not information/data visualization."
+  },
+  "evidence": [
+    {
+      "readmeLineStart": 3,
+      "readmeLineEnd": 9,
+      "text": "ripgrep is a line-oriented search tool that recursively searches the current\ndirectory for a regex pattern. By default, ripgrep will respect gitignore rules\nand automatically skip hidden files/directories and binary files. (To disable\nall automatic filtering by default, use `rg -uuu`.) ripgrep has first class\nsupport on Windows, macOS and Linux, with binary downloads available for [every\nrelease](https://github.com/BurntSushi/ripgrep/releases). ripgrep is similar to\nother popular search tools like The Silver Searcher, ack and grep."
+    },
+    {
+      "readmeLineStart": 39,
+      "readmeLineEnd": 49,
+      "text": "### Quick examples comparing tools\n\nThis example searches the entire\n[Linux kernel source tree](https://github.com/BurntSushi/linux)\n(after running `make defconfig && make -j8`) for `[A-Z]+_SUSPEND`, where\nall matches must be words. Timings were collected on a system with an Intel\ni9-12900K 5.2 GHz.\n\nPlease remember that a single benchmark is never enough! See my\n[blog post on ripgrep](https://blog.burntsushi.net/ripgrep/)\nfor a very detailed comparison with more benchmarks and analysis."
+    },
+    {
+      "readmeLineStart": 62,
+      "readmeLineEnd": 75,
+      "text": "Here's another benchmark on the same corpus as above that disregards gitignore\nfiles and searches with a whitelist instead. The corpus is the same as in the\nprevious benchmark, and the flags passed to each command ensure that they are\ndoing equivalent work:\n\n| Tool | Command | Line count | Time |\n| ---- | ------- | ---------- | ---- |\n| ripgrep | `rg -uuu -tc -n -w '[A-Z]+_SUSPEND'` | 447 | **0.063s** (1.00x) |\n| [ugrep](https://github.com/Genivia/ugrep) | `ugrep -r -n --include='*.c' --include='*.h' -w '[A-Z]+_SUSPEND'` | 447 | 0.607s (9.62x) |\n| [GNU grep](https://www.gnu.org/software/grep/) | `grep -E -r -n --include='*.c' --include='*.h' -w '[A-Z]+_SUSPEND'` | 447 | 0.674s (10.69x) |\n\nNow we'll move to searching on single large file. Here is a straight-up\ncomparison between ripgrep, ugrep and GNU grep on a file cached in memory\n(~13GB, [`OpenSubtitles.raw.en.gz`](https://object.pouta.csc.fi/OPUS-OpenSubtitles/v2018/mono/en.txt.gz), decompressed):"
+    },
+    {
+      "readmeLineStart": 116,
+      "readmeLineEnd": 153,
+      "text": "### Why should I use ripgrep?\n\n* It can replace many use cases served by other search tools\n  because it contains most of their features and is generally faster. (See\n  [the FAQ](FAQ.md#posix4ever) for more details on whether ripgrep can truly\n  replace grep.)\n* Like other tools specialized to code search, ripgrep defaults to\n  [recursive search](GUIDE.md#recursive-search) and does [automatic\n  filtering](GUIDE.md#automatic-filtering). Namely, ripgrep won't search files\n  ignored by your `.gitignore`/`.ignore`/`.rgignore` files, it won't search\n  hidden files and it won't search binary files. Automatic filtering can be\n  disabled with `rg -uuu`.\n* ripgrep can [search specific types of files](GUIDE.md#manual-filtering-file-types).\n  For example, `rg -tpy foo` limits your search to Python files and `rg -Tjs\n  foo` excludes JavaScript files from your search. ripgrep can be taught about\n  new file types with custom matching rules.\n* ripgrep supports many features found in `grep`, such as showing the context\n  of search results, searching multiple patterns, highlighting matches with\n  color and full Unicode support. Unlike GNU grep, ripgrep stays fast while\n  supporting Unicode (which is always on).\n* ripgrep has optional support for switching its regex engine to use PCRE2.\n  Among other things, this makes it possible to use look-around and\n  backreferences in your patterns, which are not supported in ripgrep's default\n  regex engine. PCRE2 support can be enabled with `-P/--pcre2` (use PCRE2\n  always) or `--auto-hybrid-regex` (use PCRE2 only if needed). An alternative\n  syntax is provided via the `--engine (default|pcre2|auto)` option.\n* ripgrep has [rudimentary support for replacements](GUIDE.md#replacements),\n  which permit rewriting output based on what was matched.\n* ripgrep supports [searching files in text encodings](GUIDE.md#file-encoding)\n  other than UTF-8, such as UTF-16, latin-1, GBK, EUC-JP, Shift_JIS and more.\n  (Some support for automatically detecting UTF-16 is provided. Other text\n  encodings must be specifically specified with the `-E/--encoding` flag.)\n* ripgrep supports searching files compressed in a common format (brotli,\n  bzip2, gzip, lz4, lzma, xz, or zstandard) with the `-z/--search-zip` flag.\n* ripgrep supports\n  [arbitrary input preprocessing filters](GUIDE.md#preprocessor)\n  which could be PDF text extraction, less supported decompression, decrypting,\n  automatic encoding detection and so on."
+    },
+    {
+      "readmeLineStart": 183,
+      "readmeLineEnd": 208,
+      "text": "### Is it really faster than everything else?\n\nGenerally, yes. A large number of benchmarks with detailed analysis for each is\n[available on my blog](https://blog.burntsushi.net/ripgrep/).\n\nSummarizing, ripgrep is fast because:\n\n* It is built on top of\n  [Rust's regex engine](https://github.com/rust-lang/regex).\n  Rust's regex engine uses finite automata, SIMD and aggressive literal\n  optimizations to make searching very fast. (PCRE2 support can be opted into\n  with the `-P/--pcre2` flag.)\n* Rust's regex library maintains performance with full Unicode support by\n  building UTF-8 decoding directly into its deterministic finite automaton\n  engine.\n* It supports searching with either memory maps or by searching incrementally\n  with an intermediate buffer. The former is better for single files and the\n  latter is better for large directories. ripgrep chooses the best searching\n  strategy for you automatically.\n* Applies your ignore patterns in `.gitignore` files using a\n  [`RegexSet`](https://docs.rs/regex/1/regex/struct.RegexSet.html).\n  That means a single file path can be matched against multiple glob patterns\n  simultaneously.\n* It uses a lock-free parallel recursive directory iterator, courtesy of\n  [`crossbeam`](https://docs.rs/crossbeam) and\n  [`ignore`](https://docs.rs/ignore)."
+    }
+  ],
+  "protocol": {
+    "actualOriginalREADMEReadInFull": true,
+    "current37ModelProbabilityNotInspected": true,
+    "parentMessageHadAlreadyDisclosedDirection": true,
+    "judgmentBasedOnDefinitionAndFullText": true,
+    "noModelCalls": true,
+    "noExternalCalls": true,
+    "noProjectOrDatabaseWrites": true,
+    "noUnseen4EvidenceRead": true,
+    "oldGoldPreserved": true
+  }
+}

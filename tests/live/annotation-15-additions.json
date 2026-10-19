@@ -1,0 +1,15 @@
+{
+  "annotatedBeforeEvaluation": true,
+  "annotationsAddedAfterOriginalProviderCalls": true,
+  "preparedAt": "2026-10-15T07:27:29.756265Z",
+  "purpose": "Post-response independent human README review; development calibration only, not prospective gold or fresh holdout. Original annotations and raw responses remain unchanged.",
+  "checks": [
+    {
+      "name": "rpamis/comet",
+      "positive": [
+        "form.skills"
+      ],
+      "reason": "Original sent README explicitly says two owned skills and documents npx skills add rpamis/comet for its own reusable Comet skill package."
+    }
+  ]
+}
